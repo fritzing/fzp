@@ -12,9 +12,9 @@
     <tag>tagvalue2</tag>
     <tag>tagvalue3</tag>
   </tags>
-  <taxonomy>...</taxonomy>
-  <family>...</family>
-  <variant>...</variant>
+  <taxonomy>txnmy</taxonomy>
+  <family>fam1</family>
+  <variant>variant1</variant>
   <properties>
     <property name="x">value-1</property>
     <property name="x">value-2</property>
