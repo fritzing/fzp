@@ -42,7 +42,7 @@
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <module fritzingVersion="x.y.z" moduleId="mod-id-rev" referenceFile="ref.file">
-  <version>1.1</version>
+  <version>x.y.z</version>
   <title>part-name</title>
   <description>some words about the part</description>
   <author>your-name</author>
