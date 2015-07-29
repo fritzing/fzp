@@ -1,10 +1,43 @@
 # [fritzing](https://github.com/fritzing) fzp specs & tools
 
-- [Sample fzp](#sample-fzp)
+- [Sample `fzp`](#sample-fzp)
 - [Specification](#specification)
+  - [`module`](#module)
+    - [`fritzingVersion`](#fritzingversion)
+    - [`moduleId`](#moduleid)
+    - [`referenceFile`](#referencefile)
+  - [`version`](#version)
+  - [`title`](#title)
+  - [`description`](#description)
+  - [`author`](#author)
+  - [`date`](#date)
+  - [`url`](#url)
+  - [`label`](#label)
+  - [`tags`](#tags)
+    - [`tag`](#tag)
+  - [`taxonomy`](#taxonomy)
+  - [`language`](#language)
+  - [`family`](#family)
+  - [`variant`](#variant)
+  - [`properties`](#properties)
+    - [`property`](#property)
+  - [`views`](#views)
+    - [`iconView`](#iconview)
+    - [`breadboardView`](#breadboardview)
+    - [`schematicView`](#schematicview)
+    - [`pcbView`](#pcbview)
+  - [`connectors`](#connectors)
+    - [`connector`](#connector)
+      - [`description`](#description)
+      - [`views`](#views)
+        - [`breadboard`](#breadboard)
+        - [`schematic`](#schematic)
+        - [`pcb`](#pcb)
+  - [`buses`](#buses)
 
 
-## Sample fzp
+
+## Sample `fzp`
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -30,28 +63,6 @@
 
 
 ## Specification
-
-- [module](#module)
- - [fritzingVersion](#fritzingversion)
- - [moduleId](#moduleid)
- - [referenceFile](#referencefile)
-- [version](#version)
-- [title](#title)
-- [description](#description)
-- [author](#author)
-- [date](#date)
-- [url](#url)
-- [label](#label)
-- [tags](#tags)
-- [taxonomy](#taxonomy)
-- [language](#language)
-- [family](#family)
-- [variant](#variant)
-- [properties](#properties)
-- [views](#views)
-- [connectors](#connectors)
-- [buses](#buses)
-
 
 ### module
 ```
@@ -127,6 +138,8 @@ Store the default part label prefix
 ```
 Store the part's tags
 
+##### tag
+
 
 ### taxonomy
 ```
@@ -162,6 +175,8 @@ Store the part's variant (this makes it unique from all other parts in the same 
 ```
 Store the part's properties
 
+##### property
+
 
 ### views
 ```
@@ -191,10 +206,12 @@ Store the part's properties
 </views>
 ```
 
-- icon
-- breadboard
-- pcb
-- schematic  
+##### iconView
+##### breadboardView
+##### pcbView
+##### schematicView
+###### layers
+###### layer
 
 
 ### connectors
@@ -217,6 +234,8 @@ Store the part's properties
   </connector>
 </connectors>
 ```
+##### connector
+###### description
 
 
 ### buses
