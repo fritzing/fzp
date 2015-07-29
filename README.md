@@ -60,7 +60,7 @@
   <buses>...</buses>
 </module>
 ```
-
+A complete sample file can be found [here](sample.fzp)
 
 ## Specification
 
