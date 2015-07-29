@@ -30,9 +30,9 @@
 
 ## Specification
 
-- [fritzingVersion](#fritzingVersion)
-- [moduleId](#moduleId)
-- [referenceFile](#referenceFile)
+- [fritzingVersion](#fritzingversion)
+- [moduleId](#moduleid)
+- [referenceFile](#referencefile)
 - [version](#version)
 - [title](#title)
 - [description](#description)
@@ -44,6 +44,7 @@
 - [taxonomy](#taxonomy)
 - [language](#language)
 - [family](#family)
+- [variant](#variant)
 - [properties](#properties)
 - [views](#views)
 - [connectors](#connectors)
@@ -73,11 +74,18 @@ Store the part author
 ### date
 Store the part date
 
-### uRL
+### url
 Store the part's url if it is described on a web page
 
 ### label
 Store the default part label prefix
+
+### tags
+Store the part's tags
+
+### taxonomy
+
+### language
 
 ### family
 Store the parts family (what other parts is this related to)
@@ -88,19 +96,13 @@ Store the part's variant (this makes it unique from all other parts in the same 
 ### properties
 Store the part's properties
 
-### tags
-Store the part's tags
-
-### taxonomy
-
 ### views
 
-#### icon
-
-#### breadboard
-
-#### pcb
-
-#### schematic  
+- icon
+- breadboard
+- pcb
+- schematic  
 
 ### connectors
+
+### buses
