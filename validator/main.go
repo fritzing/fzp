@@ -104,8 +104,16 @@ func validateFolder(src string) {
 		filename := v.Name()
 		// fmt.Printf("file %v: %v\n", k, filename)
 		// check if file is a fzp file
-		if filepath.Ext(filename) == ".fzp" {
-			validateFile(src + "/" + filename)
+		if isExtFzp(filename) {
+			validateFile(src+"/"+filename, check)
 		}
+	}
+}
+
+func isExtFzp(src string) bool {
+	if filepath.Ext(src) == ".fzp" {
+		return true
+	} else {
+		return false
 	}
 }
