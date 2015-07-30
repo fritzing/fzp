@@ -97,7 +97,7 @@ func validateFile(src string) {
 			fmt.Println(errCheckTags)
 		}
 
-		errCheck := fzp.CheckData(fzpData)
+		errCheck := fzpData.Check()
 		if errCheck != nil {
 			fmt.Println("Error @", src)
 			for _, v := range errCheck {
