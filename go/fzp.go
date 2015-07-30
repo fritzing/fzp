@@ -27,52 +27,6 @@ type Fzp struct {
 	Buses           []Bus       `xml:"buses>bus"`
 }
 
-type Property struct {
-	Name  string `xml:"name,attr"`
-	Value string `xml:",chardata"`
-}
-
-type Views struct {
-	Icon       ViewLayers `xml:"iconView>layers"`
-	Breadboard ViewLayers `xml:"breadboardView>layers"`
-	Pcb        ViewLayers `xml:"pcbView>layers"`
-	Schematic  ViewLayers `xml:"schematicView>layers"`
-}
-
-type ViewLayers struct {
-	Image string      `xml:"image,attr"`
-	Layer []ViewLayer `xml:"layer"`
-}
-
-type ViewLayer struct {
-	LayerId string `xml:"layerId,attr"`
-}
-
-type Connector struct {
-	Id             string           `xml:"id,attr"`
-	Name           string           `xml:"name,attr"`
-	Type           string           `xml:"type,attr"`
-	Description    string           `xml:"description"`
-	BreadboardView []ConnectorLayer `xml:"views>breadboardView>p"`
-	PcbView        []ConnectorLayer `xml:"views>pcbView>p"`
-	SchematicView  []ConnectorLayer `xml:"views>schematicView>p"`
-}
-
-type ConnectorLayer struct {
-	Layer      string `xml:"layer,attr"`
-	SvgId      string `xml:"svgId,attr"`
-	TerminalId string `xml:"terminalId,attr"`
-}
-
-type Bus struct {
-	Id         string          `xml:"id,attr"`
-	NodeMember []BusNodeMember `xml:"nodeMember"`
-}
-
-type BusNodeMember struct {
-	ConnectorId string `xml:"connectorId,attr"`
-}
-
 func ReadFzp(src string) (Fzp, error) {
 	fzpData := Fzp{}
 	// read
