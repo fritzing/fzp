@@ -4,9 +4,9 @@ import (
 	"encoding/xml"
 	"fmt"
 	"github.com/codegangsta/cli"
-	"github.com/kr/pretty"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 func main() {
@@ -16,8 +16,13 @@ func main() {
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "file, f",
-			Value: "*.fzp",
+			Value: "",
 			Usage: "the fzp filepath",
+		},
+		cli.StringFlag{
+			Name:  "folder, d",
+			Value: "",
+			Usage: "the path to a folder of fzp files",
 		},
 	}
 	app.Action = cliAction
@@ -27,16 +32,47 @@ func main() {
 func cliAction(c *cli.Context) {
 	// get cli flag value
 	fzpFile := c.String("file")
-
-	// readFile
-	fzpBytes, err := ioutil.ReadFile(fzpFile)
-	if err != nil {
-		panic(err)
+	fzpFolder := c.String("folder")
+	// read fzp file
+	if fzpFile != "" {
+		validateFile(fzpFile)
+		os.Exit(0)
 	}
+	// read folder
+	if fzpFolder != "" {
+		validateFolder(fzpFolder)
+		os.Exit(0)
+	}
+}
 
+func validateFile(src string) {
+	// read
+	fzpBytes, err := ioutil.ReadFile(src)
+	if err != nil {
+		fmt.Printf("Read fzp file '%v' Error: %v\n", src, err)
+		os.Exit(10)
+	}
 	// decode XML
 	fzp := Fzp{}
-	xml.Unmarshal(fzpBytes, &fzp)
+	errDecode := xml.Unmarshal(fzpBytes, &fzp)
+	if errDecode != nil {
+		fmt.Printf("Decode Error at file '%v': %v\n", src, errDecode)
+		os.Exit(11)
+	}
+}
 
-	fmt.Printf("%# v", pretty.Formatter(fzp))
+func validateFolder(src string) {
+	folderFiles, err := ioutil.ReadDir(src)
+	if err != nil {
+		fmt.Printf("Error read folder '%v'\n", src)
+		os.Exit(20)
+	}
+	for _, v := range folderFiles {
+		filename := v.Name()
+		// fmt.Printf("file %v: %v\n", k, filename)
+		// check if file is a fzp file
+		if filepath.Ext(filename) == ".fzp" {
+			validateFile(src + "/" + filename)
+		}
+	}
 }
