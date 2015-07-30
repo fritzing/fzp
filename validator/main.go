@@ -10,7 +10,12 @@ import (
 	"path/filepath"
 )
 
+var (
+	verbose bool
+)
+
 func main() {
+	verbose = false
 	app := cli.NewApp()
 	app.Name = "fzp-validator"
 	app.Usage = "fzp validator"
@@ -21,9 +26,13 @@ func main() {
 			Usage: "the fzp filepath",
 		},
 		cli.StringFlag{
-			Name:  "folder, d",
+			Name:  "dir, d",
 			Value: "",
-			Usage: "the path to a folder of fzp files",
+			Usage: "the fzp files directory",
+		},
+		cli.BoolFlag{
+			Name:  "verbose, V",
+			Usage: "verbose mode",
 		},
 	}
 	app.Action = cliAction
@@ -32,17 +41,22 @@ func main() {
 
 func cliAction(c *cli.Context) {
 	// get cli flag value
+	verbose = c.Bool("verbose")
 	fzpFile := c.String("file")
-	fzpFolder := c.String("folder")
-	// read fzp file
+	fzpDir := c.String("dir")
+	// process data
 	if fzpFile != "" {
 		validateFile(fzpFile)
 		os.Exit(0)
-	}
-	// read folder
-	if fzpFolder != "" {
-		validateFolder(fzpFolder)
+	} else if fzpDir != "" {
+		Log("read folder '%v'\n", fzpDir)
+		validateFolder(fzpDir)
 		os.Exit(0)
+	} else {
+		fmt.Println("validate a file or a directory...")
+		fmt.Println("  $validate --file file/path.fzp")
+		fmt.Println("  $validate --dir file/dir")
+	}
 	}
 }
 
