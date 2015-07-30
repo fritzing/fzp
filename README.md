@@ -1,4 +1,4 @@
-# [fritzing](https://github.com/fritzing) fzp specs & tools
+# [fritzing](https://github.com/fritzing) fzp specs & tools [![Build Status](https://travis-ci.org/paulvollmer/fzp.svg)](https://travis-ci.org/paulvollmer/fzp) [![Coverage Status](https://coveralls.io/repos/paulvollmer/fzp/badge.svg?branch=develop&service=github)](https://coveralls.io/github/paulvollmer/fzp?branch=develop)
 
 - [Sample `fzp`](#sample-fzp)
 - [Specification](#specification)
