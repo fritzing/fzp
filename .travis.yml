@@ -12,8 +12,4 @@ before_install:
 script:
   - go build && ./fzp --help
   - go test -v -covermode="count" -coverprofile="go_fzp.cover" github.com/paulvollmer/fzp/go
-  - $HOME/gopath/bin/goveralls -coverprofile="go_fzp.cover" -service=travis-ci
-
-
-#  -covermode=count -coverprofile=coverage.out
-# - $HOME/gopath/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+  - $HOME/gopath/bin/goveralls -service=travis-ci -coverprofile="go_fzp.cover"
