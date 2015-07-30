@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"github.com/codegangsta/cli"
+	"github.com/paulvollmer/fzp/go"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -53,8 +54,8 @@ func validateFile(src string) {
 		os.Exit(10)
 	}
 	// decode XML
-	fzp := Fzp{}
-	errDecode := xml.Unmarshal(fzpBytes, &fzp)
+	fzpData := fzp.Fzp{}
+	errDecode := xml.Unmarshal(fzpBytes, &fzpData)
 	if errDecode != nil {
 		fmt.Printf("Decode Error at file '%v': %v\n", src, errDecode)
 		os.Exit(11)
