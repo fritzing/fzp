@@ -72,18 +72,17 @@ type BusNodeMember struct {
 	ConnectorId string `xml:"connectorId,attr"`
 }
 
-func (f *Fzp) ReadFile(src string) error {
+func ReadFzp(src string) (Fzp, error) {
+	fzpData := Fzp{}
 	// read
 	fzpBytes, errRead := ioutil.ReadFile(src)
 	if errRead != nil {
-		return errRead
+		return fzpData, errRead
 	}
 	// decode XML
-	fzpData := Fzp{}
 	errDecode := xml.Unmarshal(fzpBytes, &fzpData)
 	if errDecode != nil {
-		return errDecode
+		return fzpData, errDecode
 	}
-	f = &fzpData
-	return nil
+	return fzpData, nil
 }

@@ -5,9 +5,15 @@ import (
 )
 
 func TestFzp(t *testing.T) {
-	f := Fzp{}
-	err := f.ReadFile("../sample.fzp")
+	f, err := ReadFzp("../sample.fzp")
 	if err != nil {
-		t.Error("fzp readfile failed")
+		t.Error("fzp ReadFzp failed")
+	}
+
+	if f.Version != "x.y.z" {
+		t.Error("fzp Version not equal")
+	}
+	if f.Title != "part-name" {
+		t.Error("fzp Title not equal")
 	}
 }
