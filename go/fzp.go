@@ -48,32 +48,73 @@ func (f *Fzp) CheckTags() error {
 	if len(f.Tags) != 0 {
 		for _, tag := range f.Tags {
 			if tag == "" {
-				return errors.New("tag value not defined!")
+				return errors.New("tag value undefined!")
 			}
 		}
 	}
 	return nil
 }
 
-// check the required data
-func CheckData(f Fzp) []error {
-	var err []error
-
+func (f *Fzp) CheckProperties() error {
 	if len(f.Properties) != 0 {
 		for _, property := range f.Properties {
-
-			errPropName := property.CheckName()
-			if errPropName != nil {
-				err = append(err, errPropName)
+			if err := property.CheckName(); err != nil {
+				return err
 			}
-
-			errPropValue := property.CheckValue()
-			if errPropValue != nil {
-				err = append(err, errPropValue)
+			if err := property.CheckValue(); err != nil {
+				return err
 			}
-
 		}
 	}
+	return nil
+}
 
-	return err
+func (f *Fzp) CheckViews() error {
+	// TODO: ...
+	return nil
+}
+
+func (f *Fzp) CheckConnectors() error {
+	if len(f.Connectors) != 0 {
+		for _, connector := range f.Connectors {
+			if err := connector.Check(); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (f *Fzp) CheckBuses() error {
+	if len(f.Buses) != 0 {
+		for _, bus := range f.Buses {
+			if err := bus.Check(); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+// check all the data
+func (f *Fzp) Check() []error {
+	var errList []error
+
+	if err := f.CheckTags(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckProperties(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckViews(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckConnectors(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckBuses(); err != nil {
+		errList = append(errList, err)
+	}
+
+	return errList
 }
