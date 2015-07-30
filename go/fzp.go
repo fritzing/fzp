@@ -27,6 +27,7 @@ type Fzp struct {
 	Buses           []Bus       `xml:"buses>bus"`
 }
 
+// ReadFzp and decode xml data
 func ReadFzp(src string) (Fzp, error) {
 	fzpData := Fzp{}
 	// read
@@ -40,4 +41,11 @@ func ReadFzp(src string) (Fzp, error) {
 		return fzpData, errDecode
 	}
 	return fzpData, nil
+}
+
+// check the required data
+func CheckData(f Fzp) []error {
+	var err []error
+
+	return err
 }
