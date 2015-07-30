@@ -91,6 +91,12 @@ func validateFile(src string) {
 	Log("fzp file '%v' successful read\n", src)
 
 	if checkData {
+		errCheckTags := fzpData.CheckTags()
+		if errCheckTags != nil {
+			fmt.Println("Check 'tags' Error @", src)
+			fmt.Println(errCheckTags)
+		}
+
 		errCheck := fzp.CheckData(fzpData)
 		if errCheck != nil {
 			fmt.Println("Error @", src)
