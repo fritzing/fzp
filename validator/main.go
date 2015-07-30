@@ -10,7 +10,8 @@ import (
 )
 
 var (
-	verbose bool
+	verbose   bool
+	checkData bool
 )
 
 func main() {
@@ -33,6 +34,10 @@ func main() {
 			Usage: "the fzp files directory",
 		},
 		cli.BoolFlag{
+			Name:  "no-check, c",
+			Usage: "not check the data",
+		},
+		cli.BoolFlag{
 			Name:  "verbose, V",
 			Usage: "verbose mode",
 		},
@@ -43,9 +48,10 @@ func main() {
 
 func cliAction(c *cli.Context) {
 	// get cli flag value
-	verbose = c.Bool("verbose")
 	fzpFile := c.String("file")
 	fzpDir := c.String("dir")
+	verbose = c.Bool("verbose")
+	checkData = !c.Bool("no-check")
 	// process data
 	if fzpFile != "" {
 		validateFile(fzpFile)
@@ -83,14 +89,18 @@ func validateFile(src string) {
 		os.Exit(1)
 	}
 	Log("fzp file '%v' successful read\n", src)
-	errCheck := fzp.CheckData(fzpData)
-	if errCheck != nil {
-		fmt.Println("Error @", src)
-		for _, v := range errCheck {
-			fmt.Println("=>", v)
+
+	if checkData {
+		errCheck := fzp.CheckData(fzpData)
+		if errCheck != nil {
+			fmt.Println("Error @", src)
+			for _, v := range errCheck {
+				fmt.Println("=>", v)
+			}
+			return
 		}
-		return
 	}
+
 	Log("fzp valid\n")
 }
 
@@ -105,7 +115,7 @@ func validateFolder(src string) {
 		// fmt.Printf("file %v: %v\n", k, filename)
 		// check if file is a fzp file
 		if isExtFzp(filename) {
-			validateFile(src+"/"+filename, check)
+			validateFile(src + "/" + filename)
 		}
 	}
 }
