@@ -10,6 +10,11 @@ func Test_ReadFzp_Ok(t *testing.T) {
 		t.Error("fzp ReadFzp failed")
 	}
 
+	errCheck := CheckData(f)
+	if errCheck != nil {
+		t.Error("fzp CheckData broken")
+	}
+
 	if f.Version != "x.y.z" {
 		t.Error("fzp Version not equal")
 	}
