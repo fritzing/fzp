@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/xml"
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/paulvollmer/fzp/go"
@@ -57,30 +56,37 @@ func cliAction(c *cli.Context) {
 		fmt.Println("  $validate --file file/path.fzp")
 		fmt.Println("  $validate --dir file/dir")
 	}
+}
+
+func Log(format string, a ...interface{}) {
+	if verbose {
+		fmt.Printf(format, a...)
 	}
 }
 
 func validateFile(src string) {
-	// read
-	fzpBytes, err := ioutil.ReadFile(src)
+	fzpData, err := fzp.ReadFzp(src)
 	if err != nil {
-		fmt.Printf("Read fzp file '%v' Error: %v\n", src, err)
-		os.Exit(10)
+		fmt.Printf("validator failed @ %v\n", err)
+		os.Exit(1)
 	}
-	// decode XML
-	fzpData := fzp.Fzp{}
-	errDecode := xml.Unmarshal(fzpBytes, &fzpData)
-	if errDecode != nil {
-		fmt.Printf("Decode Error at file '%v': %v\n", src, errDecode)
-		os.Exit(11)
+	Log("fzp file '%v' successful read\n", src)
+	errCheck := fzp.CheckData(fzpData)
+	if errCheck != nil {
+		fmt.Println("Error @", src)
+		for _, v := range errCheck {
+			fmt.Println("=>", v)
+		}
+		return
 	}
+	Log("fzp valid\n")
 }
 
 func validateFolder(src string) {
 	folderFiles, err := ioutil.ReadDir(src)
 	if err != nil {
-		fmt.Printf("Error read folder '%v'\n", src)
-		os.Exit(20)
+		fmt.Printf("validator failed @ read folder '%v'\n", src)
+		os.Exit(2)
 	}
 	for _, v := range folderFiles {
 		filename := v.Name()
