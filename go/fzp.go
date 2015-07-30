@@ -2,6 +2,7 @@ package fzp
 
 import (
 	"encoding/xml"
+	"io/ioutil"
 )
 
 type Fzp struct {
@@ -69,4 +70,20 @@ type Bus struct {
 
 type BusNodeMember struct {
 	ConnectorId string `xml:"connectorId,attr"`
+}
+
+func (f *Fzp) ReadFile(src string) error {
+	// read
+	fzpBytes, errRead := ioutil.ReadFile(src)
+	if errRead != nil {
+		return errRead
+	}
+	// decode XML
+	fzpData := Fzp{}
+	errDecode := xml.Unmarshal(fzpBytes, &fzpData)
+	if errDecode != nil {
+		return errDecode
+	}
+	f = &fzpData
+	return nil
 }
