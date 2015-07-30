@@ -9,6 +9,7 @@ type Fzp struct {
 	XMLName         xml.Name    `xml:"module"`
 	FritzingVersion string      `xml:"fritzingVersion,attr"`
 	ModuleId        string      `xml:"moduleId,attr"`
+	ReferenceFile   string      `xml:"referenceFile,attr"`
 	Version         string      `xml:"version"`
 	Title           string      `xml:"title"`
 	Description     string      `xml:"description"`
