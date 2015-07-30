@@ -1,4 +1,4 @@
-package main
+package fzp
 
 import (
 	"encoding/xml"
