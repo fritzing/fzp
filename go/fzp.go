@@ -88,7 +88,7 @@ func (f *Fzp) CheckConnectors() error {
 func (f *Fzp) CheckBuses() error {
 	if len(f.Buses) != 0 {
 		for _, bus := range f.Buses {
-			if err := bus.Check(); err != nil {
+			if err := bus.CheckId(); err != nil {
 				return err
 			}
 		}
