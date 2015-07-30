@@ -1,4 +1,4 @@
-# [fritzing](https://github.com/fritzing) fzp specs & tools
+# [fritzing](https://github.com/fritzing) fzp specs & tools [![Build Status](https://travis-ci.org/paulvollmer/fzp.svg)](https://travis-ci.org/paulvollmer/fzp) [![Coverage Status](https://coveralls.io/repos/paulvollmer/fzp/badge.svg?branch=develop&service=github)](https://coveralls.io/github/paulvollmer/fzp?branch=develop)
 
 - [Sample `fzp`](#sample-fzp)
 - [Specification](#specification)
@@ -34,7 +34,11 @@
         - [`schematic`](#schematic)
         - [`pcb`](#pcb)
   - [`buses`](#buses)
-
+- [Tools](#tools)
+  - [Validator](#validator)
+- [Libraries/Code](#libraries-code)
+  - [Qt](#qt)
+  - [go](#go)
 
 
 ## Sample `fzp`
@@ -60,7 +64,7 @@
   <buses>...</buses>
 </module>
 ```
-
+A complete sample file can be found [here](sample.fzp)
 
 ## Specification
 
@@ -243,3 +247,28 @@ Store the part's properties
 <buses>
 </buses>
 ```
+
+
+
+
+
+
+## Tools
+
+### Validator
+simple and fast validator to test the fritzing-parts repository (over 14k parts).  
+i think [go](https://golang.org) is excelent for this job.  
+if the validator is ready we can add travis-ci as test service to the fritzing-parts repository.
+
+
+
+
+
+## Libraries/Code
+
+### Qt
+here i think lifes the fritzing-app fzp code...
+[fritzing-app](https://github.com/fritzing/fritzing-app/blob/bcf97e72b45fc6d9be836e5014fc53f5eabe0048/src/model/modelpart.h#L114) Qt sourcecode link
+
+### go
+see validator
