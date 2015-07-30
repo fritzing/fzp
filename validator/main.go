@@ -16,8 +16,11 @@ var (
 func main() {
 	verbose = false
 	app := cli.NewApp()
-	app.Name = "fzp-validator"
+	app.Name = "validator"
 	app.Usage = "fzp validator"
+	app.Version = "0.1.0"
+	app.Author = "paul vollmer"
+	app.Email = "https://github.com/paulvollmer/fzp"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "file, f",
