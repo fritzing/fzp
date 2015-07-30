@@ -19,7 +19,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "validator"
 	app.Usage = "fzp validator"
-	app.Version = "0.1.0"
+	app.Version = "0.1.1"
 	app.Author = "paul vollmer"
 	app.Email = "https://github.com/paulvollmer/fzp"
 	app.Flags = []cli.Flag{
