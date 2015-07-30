@@ -47,5 +47,21 @@ func ReadFzp(src string) (Fzp, error) {
 func CheckData(f Fzp) []error {
 	var err []error
 
+	if len(f.Properties) != 0 {
+		for _, property := range f.Properties {
+
+			errPropName := property.CheckName()
+			if errPropName != nil {
+				err = append(err, errPropName)
+			}
+
+			errPropValue := property.CheckValue()
+			if errPropValue != nil {
+				err = append(err, errPropValue)
+			}
+
+		}
+	}
+
 	return err
 }
