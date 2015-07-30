@@ -9,3 +9,7 @@ type Connector struct {
 	PcbView        []ConnectorLayer `xml:"views>pcbView>p"`
 	SchematicView  []ConnectorLayer `xml:"views>schematicView>p"`
 }
+
+func (b *Connector) Check() error {
+	return nil
+}
