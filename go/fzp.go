@@ -2,6 +2,7 @@ package fzp
 
 import (
 	"encoding/xml"
+	"errors"
 	"io/ioutil"
 )
 
@@ -41,6 +42,17 @@ func ReadFzp(src string) (Fzp, error) {
 		return fzpData, errDecode
 	}
 	return fzpData, nil
+}
+
+func (f *Fzp) CheckTags() error {
+	if len(f.Tags) != 0 {
+		for _, tag := range f.Tags {
+			if tag == "" {
+				return errors.New("tag value not defined!")
+			}
+		}
+	}
+	return nil
 }
 
 // check the required data
