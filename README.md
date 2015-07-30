@@ -1,4 +1,4 @@
-# [fritzing](https://github.com/fritzing) fzp specs & tools [![Build Status](https://travis-ci.org/paulvollmer/fzp.svg)](https://travis-ci.org/paulvollmer/fzp) [![Coverage Status](https://coveralls.io/repos/paulvollmer/fzp/badge.svg?branch=develop&service=github)](https://coveralls.io/github/paulvollmer/fzp?branch=develop)
+# [fritzing](https://github.com/fritzing) fzp specs & tools
 
 - [Sample `fzp`](#sample-fzp)
 - [Specification](#specification)
@@ -254,8 +254,10 @@ Store the part's properties
 
 
 ## Tools
+[![Build Status](https://travis-ci.org/paulvollmer/fzp.svg)](https://travis-ci.org/paulvollmer/fzp) [![Coverage Status](https://coveralls.io/repos/paulvollmer/fzp/badge.svg?branch=develop&service=github)](https://coveralls.io/github/paulvollmer/fzp?branch=develop)
 
 ### Validator
+
 simple and fast validator to test the fritzing-parts repository (over 14k parts).  
 i think [go](https://golang.org) is excelent for this job.  
 if the validator is ready we can add travis-ci as test service to the fritzing-parts repository.
