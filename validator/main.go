@@ -55,9 +55,18 @@ func cliAction(c *cli.Context) {
 		validateFolder(fzpDir)
 		os.Exit(0)
 	} else {
-		fmt.Println("validate a file or a directory...")
-		fmt.Println("  $validate --file file/path.fzp")
-		fmt.Println("  $validate --dir file/dir")
+		cli.ShowAppHelp(c)
+		fmt.Println("USAGE-SAMPLES")
+		fmt.Println("")
+		fmt.Printf("   $ %v --file file/path.fzp\n", c.App.Name)
+		fmt.Println("   # or")
+		fmt.Printf("   $ %v -f file/path.fzp\n", c.App.Name)
+		fmt.Println("")
+		fmt.Printf("   $ %v --dir file/dir\n", c.App.Name)
+		fmt.Println("   # or")
+		fmt.Printf("   $ %v -d file/dir\n", c.App.Name)
+		fmt.Println("")
+		fmt.Println("also you can combine the other flags (no-check, verbose)")
 	}
 }
 
