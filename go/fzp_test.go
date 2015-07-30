@@ -12,7 +12,7 @@ func Test_ReadFzp_Ok(t *testing.T) {
 
 	errCheckTags := f.CheckTags()
 	if errCheckTags != nil {
-		t.Error("fzp CheckTags broken", errCheckTags)
+		t.Error("fzp CheckTags broken:", errCheckTags)
 	}
 
 	errCheck := CheckData(f)
