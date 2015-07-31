@@ -20,7 +20,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "validator"
 	app.Usage = "fzp validator"
-	app.Version = "0.2.0"
+	app.Version = "0.2.1"
 	app.Author = "paul vollmer"
 	app.Email = "https://github.com/paulvollmer/fzp"
 
