@@ -262,7 +262,7 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 }
 
 func isExtFzp(src string) bool {
-	if filepath.Ext(src) == ".fzp" {
+	if filepath.Ext(src) == fzp.FileExtension {
 		return true
 	} else {
 		return false

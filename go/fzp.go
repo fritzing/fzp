@@ -28,6 +28,8 @@ type Fzp struct {
 	Buses           []Bus       `xml:"buses>bus"`
 }
 
+const FileExtension = ".fzp"
+
 // ReadFzp and decode xml data
 func ReadFzp(src string) (Fzp, error) {
 	fzpData := Fzp{}
