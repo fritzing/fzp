@@ -9,7 +9,7 @@ type Bus struct {
 
 func (b *Bus) CheckId() error {
 	if b.Id == "" {
-		return errors.New("bus-id undefined!")
+		return errors.New("bus id undefined")
 	}
 	return nil
 }

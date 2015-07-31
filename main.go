@@ -258,6 +258,13 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 		}
 	}
 
+	if !c.Bool("no-check-buses") {
+		if err := fzpData.CheckBuses(); err != nil {
+			fmt.Println("=>", err)
+			checkErrorCounter++
+		}
+	}
+
 	return checkErrorCounter
 }
 
