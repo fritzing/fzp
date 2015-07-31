@@ -14,7 +14,6 @@ func Test_ReadFzp_Ok(t *testing.T) {
 	if errCheck != nil {
 		t.Error("Fzp.Check broken:", errCheck)
 	}
-
 }
 
 func Test_ReadFzp_Failed(t *testing.T) {
@@ -29,7 +28,8 @@ func Test_ReadFzp_CheckTags(t *testing.T) {
 	fzpData := Fzp{}
 	fzpData.Tags = append(fzpData.Tags, "")
 	// was an error returned?
-	if err := fzpData.CheckTags(); err == nil {
+	err, _ := fzpData.CheckTags()
+	if err == nil {
 		t.Error("Fzp.CheckTags broken")
 	}
 }
