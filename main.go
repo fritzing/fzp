@@ -1,12 +1,14 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/paulvollmer/fzp/go"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strconv"
 )
 
 var (
@@ -18,7 +20,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "validator"
 	app.Usage = "fzp validator"
-	app.Version = "0.2.0"
+	app.Version = "0.2.1"
 	app.Author = "paul vollmer"
 	app.Email = "https://github.com/paulvollmer/fzp"
 
@@ -134,11 +136,16 @@ func cliValidateAction(c *cli.Context) {
 	verbose = c.Bool("verbose")
 	// process data
 	if fzpFile != "" {
-		validateFile(c, fzpFile)
+		if err := validateFile(c, fzpFile); err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 		os.Exit(0)
 	} else if fzpDir != "" {
 		Log("read folder '%v'\n", fzpDir)
-		validateFolder(c, fzpDir)
+		if err := validateFolder(c, fzpDir); err != nil {
+			os.Exit(1)
+		}
 		os.Exit(0)
 	} else {
 		cli.ShowSubcommandHelp(c)
@@ -156,7 +163,7 @@ func cliValidateAction(c *cli.Context) {
 	}
 }
 
-func validateFile(c *cli.Context, src string) {
+func validateFile(c *cli.Context, src string) error {
 	fzpData, err := fzp.ReadFzp(src)
 	if err != nil {
 		fmt.Printf("validator failed @ %v\n", err)
@@ -164,28 +171,38 @@ func validateFile(c *cli.Context, src string) {
 	}
 	Log("fzp file '%v' successful read\n", src, fzpData)
 
-	checkData(c, src, fzpData)
+	errCounter := checkData(c, fzpData)
+	if errCounter != 0 {
+		return errors.New(strconv.Itoa(errCounter) + " Errors @ " + src)
+	}
 
 	Log("fzp valid\n")
+	return nil
 }
 
-func validateFolder(c *cli.Context, src string) {
+func validateFolder(c *cli.Context, src string) []error {
+	var errList []error
 	folderFiles, err := ioutil.ReadDir(src)
 	if err != nil {
-		fmt.Printf("validator failed @ read folder '%v'\n", src)
-		os.Exit(2)
+		errList = append(errList, errors.New("validator failed @ read folder '"+src+"'"))
+		return errList
 	}
+
 	for _, v := range folderFiles {
 		filename := v.Name()
 		// fmt.Printf("file %v: %v\n", k, filename)
 		// check if file is a fzp file
 		if isExtFzp(filename) {
-			validateFile(c, src+"/"+filename)
+			if err := validateFile(c, src+"/"+filename); err != nil {
+				errList = append(errList, err)
+				fmt.Println(err, "\n")
+			}
 		}
 	}
+	return errList
 }
 
-func checkData(c *cli.Context, src string, fzpData fzp.Fzp) {
+func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 	checkErrorCounter := 0
 
 	if !c.Bool("no-check-fritzingversion") {
@@ -241,10 +258,7 @@ func checkData(c *cli.Context, src string, fzpData fzp.Fzp) {
 		}
 	}
 
-	// println("checkErrorCounter", checkErrorCounter)
-	if checkErrorCounter != 0 {
-		fmt.Println(checkErrorCounter, " Errors @", src, "\n")
-	}
+	return checkErrorCounter
 }
 
 func isExtFzp(src string) bool {
