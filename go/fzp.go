@@ -2,6 +2,7 @@ package fzp
 
 import (
 	"encoding/xml"
+	"errors"
 	"io/ioutil"
 )
 
@@ -43,9 +44,128 @@ func ReadFzp(src string) (Fzp, error) {
 	return fzpData, nil
 }
 
-// check the required data
-func CheckData(f Fzp) []error {
-	var err []error
+func (f *Fzp) CheckFritzingVersion() error {
+	if f.FritzingVersion == "" {
+		return errors.New("Missing fritzingVersion")
+	}
+	return nil
+}
 
-	return err
+func (f *Fzp) CheckModuleId() error {
+	if f.ModuleId == "" {
+		return errors.New("Missing moduleId")
+	}
+	return nil
+}
+
+// TODO: is the referenceFile required?
+
+func (f *Fzp) CheckVersion() error {
+	if f.Version == "" {
+		return errors.New("Missing version")
+	}
+	return nil
+}
+
+func (f *Fzp) CheckTitle() error {
+	if f.Title == "" {
+		return errors.New("Missing title")
+	}
+	return nil
+}
+
+// Check Description ?
+// Check Author ?
+// Check Date ?
+// Check URL ?
+// Check Label ?
+// Check Taxonomy ?
+// Check Family ?
+// Check Variant ?
+
+func (f *Fzp) CheckTags() error {
+	if len(f.Tags) != 0 {
+		for _, tag := range f.Tags {
+			if tag == "" {
+				return errors.New("tag value undefined!")
+			}
+		}
+	}
+	return nil
+}
+
+func (f *Fzp) CheckProperties() error {
+	if len(f.Properties) != 0 {
+		for _, property := range f.Properties {
+			if err := property.CheckName(); err != nil {
+				return err
+			}
+			if err := property.CheckValue(); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (f *Fzp) CheckViews() error {
+	// TODO: ...
+	return nil
+}
+
+func (f *Fzp) CheckConnectors() error {
+	if len(f.Connectors) != 0 {
+		for _, connector := range f.Connectors {
+			if err := connector.Check(); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+func (f *Fzp) CheckBuses() error {
+	if len(f.Buses) != 0 {
+		for _, bus := range f.Buses {
+			if err := bus.CheckId(); err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+// check all the data
+func (f *Fzp) Check() []error {
+	var errList []error
+
+	if err := f.CheckFritzingVersion(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckModuleId(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckVersion(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckTitle(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckTags(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckProperties(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckViews(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckConnectors(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckBuses(); err != nil {
+		errList = append(errList, err)
+	}
+
+	return errList
 }
