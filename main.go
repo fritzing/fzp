@@ -62,10 +62,10 @@ func main() {
 					Name:  "no-check-description, nd",
 					Usage: "disable <description> check",
 				},
-				// cli.BoolFlag{
-				// 	Name:  "no-check-author, na",
-				// 	Usage: "disable <author> check",
-				// },
+				cli.BoolFlag{
+					Name:  "no-check-author, na",
+					Usage: "disable <author> check",
+				},
 				// cli.BoolFlag{
 				// 	Name:  "no-check-date, nD",
 				// 	Usage: "disable <date> check",

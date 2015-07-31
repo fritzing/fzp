@@ -57,14 +57,14 @@ func ReadFzp(src string) (Fzp, error) {
 
 func (f *Fzp) CheckFritzingVersion() error {
 	if f.FritzingVersion == "" {
-		return errors.New("Missing fritzingVersion")
+		return errors.New("fritzingVersion undefined")
 	}
 	return nil
 }
 
 func (f *Fzp) CheckModuleId() error {
 	if f.ModuleId == "" {
-		return errors.New("Missing moduleId")
+		return errors.New("moduleId undefined")
 	}
 	return nil
 }
@@ -73,20 +73,32 @@ func (f *Fzp) CheckModuleId() error {
 
 func (f *Fzp) CheckVersion() error {
 	if f.Version == "" {
-		return errors.New("Missing version")
+		return errors.New("version undefined")
 	}
 	return nil
 }
 
 func (f *Fzp) CheckTitle() error {
 	if f.Title == "" {
-		return errors.New("Missing title")
+		return errors.New("title undefined")
 	}
 	return nil
 }
 
-// Check Description ?
-// Check Author ?
+func (f *Fzp) CheckDescription() error {
+	if f.Description == "" {
+		return errors.New("description undefined")
+	}
+	return nil
+}
+
+func (f *Fzp) CheckAuthor() error {
+	if f.Author == "" {
+		return errors.New("author undefined")
+	}
+	return nil
+}
+
 // Check Date ?
 // Check URL ?
 // Check Label ?
