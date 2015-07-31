@@ -18,8 +18,8 @@ var (
 func main() {
 	verbose = false
 	app := cli.NewApp()
-	app.Name = "validator"
-	app.Usage = "fzp validator"
+	app.Name = "fzp"
+	app.Usage = "fzp tool"
 	app.Version = "0.2.1"
 	app.Author = "paul vollmer"
 	app.Email = "https://github.com/paulvollmer/fzp"
