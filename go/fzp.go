@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"io/ioutil"
+	"path/filepath"
 )
 
 type Fzp struct {
@@ -29,6 +30,14 @@ type Fzp struct {
 }
 
 const FileExtension = ".fzp"
+
+func IsFileFzp(src string) bool {
+	if filepath.Ext(src) == FileExtension {
+		return true
+	} else {
+		return false
+	}
+}
 
 // ReadFzp and decode xml data
 func ReadFzp(src string) (Fzp, error) {

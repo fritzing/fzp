@@ -7,7 +7,6 @@ import (
 	"github.com/paulvollmer/fzp/go"
 	"io/ioutil"
 	"os"
-	"path/filepath"
 	"strconv"
 )
 
@@ -192,7 +191,7 @@ func validateFolder(c *cli.Context, src string) []error {
 		filename := v.Name()
 		// fmt.Printf("file %v: %v\n", k, filename)
 		// check if file is a fzp file
-		if isExtFzp(filename) {
+		if fzp.IsFileFzp(filename) {
 			if err := validateFile(c, src+"/"+filename); err != nil {
 				errList = append(errList, err)
 				fmt.Println(err, "\n")
@@ -266,14 +265,6 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 	}
 
 	return checkErrorCounter
-}
-
-func isExtFzp(src string) bool {
-	if filepath.Ext(src) == fzp.FileExtension {
-		return true
-	} else {
-		return false
-	}
 }
 
 func Log(format string, a ...interface{}) {
