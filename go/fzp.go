@@ -5,6 +5,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"path/filepath"
+	"strconv"
 )
 
 type Fzp struct {
@@ -106,15 +107,23 @@ func (f *Fzp) CheckAuthor() error {
 // Check Family ?
 // Check Variant ?
 
-func (f *Fzp) CheckTags() error {
+func (f *Fzp) CheckTags() (error, int) {
+	countBrokenTags := 0
+
 	if len(f.Tags) != 0 {
 		for _, tag := range f.Tags {
 			if tag == "" {
-				return errors.New("tag value undefined!")
+				countBrokenTags++
 			}
 		}
 	}
-	return nil
+
+	if countBrokenTags == 0 {
+		return nil, countBrokenTags
+	} else {
+		errMsg := strconv.Itoa(countBrokenTags) + " tag value/s undefined"
+		return errors.New(errMsg), countBrokenTags
+	}
 }
 
 func (f *Fzp) CheckProperties() error {
@@ -174,8 +183,9 @@ func (f *Fzp) Check() []error {
 	if err := f.CheckTitle(); err != nil {
 		errList = append(errList, err)
 	}
-	if err := f.CheckTags(); err != nil {
-		errList = append(errList, err)
+	errTags, _ := f.CheckTags()
+	if errTags != nil {
+		errList = append(errList, errTags)
 	}
 	if err := f.CheckProperties(); err != nil {
 		errList = append(errList, err)

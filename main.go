@@ -234,8 +234,20 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 		}
 	}
 
-	// Check Description ?
-	// Check Author ?
+	if !c.Bool("no-check-description") {
+		if err := fzpData.CheckDescription(); err != nil {
+			fmt.Println("=>", err)
+			checkErrorCounter++
+		}
+	}
+
+	if !c.Bool("no-check-author") {
+		if err := fzpData.CheckAuthor(); err != nil {
+			fmt.Println("=>", err)
+			checkErrorCounter++
+		}
+	}
+
 	// Check Date ?
 	// Check URL ?
 	// Check Label ?
@@ -244,8 +256,9 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 	// Check Variant ?
 
 	if !c.Bool("no-check-tags") {
-		if err := fzpData.CheckTags(); err != nil {
-			fmt.Println("=>", err)
+		errTags, _ := fzpData.CheckTags()
+		if errTags != nil {
+			fmt.Println("=>", errTags)
 			checkErrorCounter++
 		}
 	}
