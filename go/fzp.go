@@ -44,6 +44,45 @@ func ReadFzp(src string) (Fzp, error) {
 	return fzpData, nil
 }
 
+func (f *Fzp) CheckFritzingVersion() error {
+	if f.FritzingVersion == "" {
+		return errors.New("Missing fritzingVersion")
+	}
+	return nil
+}
+
+func (f *Fzp) CheckModuleId() error {
+	if f.ModuleId == "" {
+		return errors.New("Missing moduleId")
+	}
+	return nil
+}
+
+// TODO: is the referenceFile required?
+
+func (f *Fzp) CheckVersion() error {
+	if f.Version == "" {
+		return errors.New("Missing version")
+	}
+	return nil
+}
+
+func (f *Fzp) CheckTitle() error {
+	if f.Title == "" {
+		return errors.New("Missing title")
+	}
+	return nil
+}
+
+// Check Description ?
+// Check Author ?
+// Check Date ?
+// Check URL ?
+// Check Label ?
+// Check Taxonomy ?
+// Check Family ?
+// Check Variant ?
+
 func (f *Fzp) CheckTags() error {
 	if len(f.Tags) != 0 {
 		for _, tag := range f.Tags {
@@ -100,6 +139,18 @@ func (f *Fzp) CheckBuses() error {
 func (f *Fzp) Check() []error {
 	var errList []error
 
+	if err := f.CheckFritzingVersion(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckModuleId(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckVersion(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckTitle(); err != nil {
+		errList = append(errList, err)
+	}
 	if err := f.CheckTags(); err != nil {
 		errList = append(errList, err)
 	}
