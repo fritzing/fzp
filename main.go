@@ -24,6 +24,27 @@ func main() {
 
 	app.Commands = []cli.Command{
 		{
+			Name:  "format",
+			Usage: "format fzp file/files",
+			Flags: []cli.Flag{
+				// data input
+				cli.StringFlag{
+					Name:  "file, f",
+					Usage: "the fzp filepath",
+				},
+				cli.StringFlag{
+					Name:  "dir, d",
+					Usage: "the fzp files directory",
+				},
+				// settings
+				cli.BoolFlag{
+					Name: "write, w",
+					Usage: "write to file",
+				},
+			},
+			Action: cliFormatAction,
+		},
+		{
 			Name:  "validate",
 			Usage: "validate fzp file/files",
 			Flags: []cli.Flag{
@@ -125,6 +146,14 @@ func main() {
 	}
 
 	app.Run(os.Args)
+}
+
+func cliFormatAction(c *cli.Context) {
+	// get cli flag values
+	fzpFile := c.String("file")
+	fzpDir := c.String("dir")
+	flagWrite := c.String("write")
+	fmt.Println("format command placeholder...", fzpFile, fzpDir, flagWrite)
 }
 
 func cliValidateAction(c *cli.Context) {
