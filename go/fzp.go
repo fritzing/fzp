@@ -30,10 +30,10 @@ type Fzp struct {
 	Buses           []Bus       `xml:"buses>bus"`
 }
 
-const FileExtension = ".fzp"
+const FileExtensionFzp = ".fzp"
 
 func IsFileFzp(src string) bool {
-	if filepath.Ext(src) == FileExtension {
+	if filepath.Ext(src) == FileExtensionFzp {
 		return true
 	} else {
 		return false
