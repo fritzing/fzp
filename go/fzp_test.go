@@ -4,6 +4,17 @@ import (
 	"testing"
 )
 
+func Test_IsFileFzp(t *testing.T) {
+	result := IsFileFzp("data.fzp")
+	if !result {
+		t.Error("IsFileFzp broken")
+	}
+	result = IsFileFzp("data.notafzp")
+	if result {
+		t.Error("IsFileFzp broken")
+	}
+}
+
 func Test_ReadFzp_Ok(t *testing.T) {
 	f, err := ReadFzp("../sample.fzp")
 	if err != nil {
