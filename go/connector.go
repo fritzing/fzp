@@ -10,6 +10,12 @@ type Connector struct {
 	SchematicView  []ConnectorLayer `xml:"views>schematicView>p"`
 }
 
+func NewConnector(id string) Connector {
+	con := Connector{}
+	con.Id = id
+	return con
+}
+
 func (b *Connector) Check() error {
 	return nil
 }
