@@ -3,8 +3,8 @@ package fzp
 import "errors"
 
 type Bus struct {
-	Id         string          `xml:"id,attr"`
-	NodeMember []BusNodeMember `xml:"nodeMember"`
+	Id         string    `xml:"id,attr"`
+	NodeMember []BusNode `xml:"nodeMember"`
 }
 
 func (b *Bus) CheckId() error {
