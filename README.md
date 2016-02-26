@@ -42,6 +42,8 @@
         - [`pcb`](#pcb)
   - [`buses`](#buses)
 
+read more about the fzp format at:  
+[https://github.com/fritzing/fritzing-app/wiki/2.1-Part-file-format](https://github.com/fritzing/fritzing-app/wiki/2.1-Part-file-format)
 
 ## Sample `fzp`
 
