@@ -235,12 +235,12 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 		}
 	}
 	
-	if !c.Bool("no-check-family") {
+	/*if !c.Bool("no-check-family") {
 		if err := fzpData.CheckFamily(); err != nil {
 			fmt.Println("=>", err)
 			checkErrorCounter++
 		}
-	}
+	}*/
 
 	// Check Description ?
 	// Check Author ?
