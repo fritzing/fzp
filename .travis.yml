@@ -3,13 +3,14 @@ language: go
 go:
   - 1.3
   - 1.4
+  - 1.5
   - tip
 
-before_install:
-  - go get github.com/axw/gocov/gocov
-  - go get github.com/mattn/goveralls
+# before_install:
+#  - go get github.com/axw/gocov/gocov
+#  - go get github.com/mattn/goveralls
 
 script:
   - go build && ./fzp --help
-  - go test -v -covermode="count" -coverprofile="go_fzp.cover" github.com/paulvollmer/fzp/go
-  - $HOME/gopath/bin/goveralls -service=travis-ci -coverprofile="go_fzp.cover"
+  - go test -v #-covermode="count" -coverprofile="go_fzp.cover" github.com/fritzing/fzp/go
+  # - $HOME/gopath/bin/goveralls -service=travis-ci -coverprofile="go_fzp.cover"

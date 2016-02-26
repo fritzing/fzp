@@ -31,6 +31,8 @@
     - [`breadboardView`](#breadboardview)
     - [`schematicView`](#schematicview)
     - [`pcbView`](#pcbview)
+      - [`copper0`](#copper0)
+      - [`copper1`](#copper1)
   - [`connectors`](#connectors)
     - [`connector`](#connector)
       - [`description`](#description)
@@ -40,8 +42,12 @@
         - [`pcb`](#pcb)
   - [`buses`](#buses)
 
+read more about the fzp format at:  
+[https://github.com/fritzing/fritzing-app/wiki/2.1-Part-file-format](https://github.com/fritzing/fritzing-app/wiki/2.1-Part-file-format)
 
 ## Sample `fzp`
+
+TO DO: use template.fzp to load the structure of the fzp
 
 ```
 <?xml version="1.0" encoding="UTF-8"?>
@@ -68,7 +74,14 @@ A complete sample file can be found [here](sample.fzp)
 
 
 ## Tools
-[![Build Status](https://travis-ci.org/paulvollmer/fzp.svg)](https://travis-ci.org/paulvollmer/fzp) [![Coverage Status](https://coveralls.io/repos/paulvollmer/fzp/badge.svg?branch=master&service=github)](https://coveralls.io/github/paulvollmer/fzp?branch=master)
+[![Build Status](https://travis-ci.org/fritzing/fzp.svg)](https://travis-ci.org/fritzing/fzp)
+
+### template.fzp ckeckLevel
+
+the template.fzp has a checkLevel identifier for the automated travis checks.  
+this checkLevel defines how important the xml-tag of the fzp-xml is, for the fritzing-part.
+
+
 
 ### Validator
 simple and fast validator to test the fritzing-parts repository (over 14k parts).  

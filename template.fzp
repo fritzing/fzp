@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<module fritzingVersion="x.y.z" moduleId="mod-id-rev" referenceFile="ref.file" checkLevel="2">
+  <version checkLevel="0">x.y.z</version>
+  <title checkLevel="2">part-name</title>
+  <description checkLevel="1">some words about the part</description>
+  <author checkLevel="0">First LastName</author>
+  <date checkLevel="0">yyyy.mm.dd</date>
+  <url checkLevel="1">http://part.url</url>
+  <label checkLevel="2">IC</label>
+  <tags checkLevel="1">
+    <tag>tagvalue1</tag>
+    <tag>tagvalue2</tag>
+    <tag>tagvalue3</tag>
+  </tags>
+  <taxonomy checkLevel="0">txnmy</taxonomy>
+  <family checkLevel="2">fam1</family>
+  <variant checkLevel="2">variant1</variant>
+  <properties checkLevel="2">
+    <property name="x" checkLevel="2">value-1</property>
+    <property name="x" checkLevel="1">value-2</property>
+    <property name="x" checkLevel="1">value-3</property>
+  </properties>
+  <views checkLevel="2">
+    <breadboardView checkLevel="2">
+      <layers image="breadboard/part.svg" checkLevel="2">
+        <layer layerId="breadboard"/>
+      </layers>
+    </breadboardView>
+    <schematicView checkLevel="2">
+      <layers image="schematic/part.svg" checkLevel="2">
+        <layer layerId="schematic"/>
+      </layers>
+    </schematicView>
+    <pcbView checkLevel="2">
+      <layers image="pcb/part.svg" checkLevel="2">
+        <layer layerId="copper0" checkLevel="2"/>
+        <layer layerId="silkscreen"/>
+        <layer layerId="copper1" checkLevel="2"/>
+      </layers>
+    </pcbView>
+    <iconView>
+      <layers image="icon/part.svg" checkLevel="2">
+        <layer layerId="icon"/>
+      </layers>
+    </iconView>
+  </views>
+  <connectors checkLevel="2">
+    <connector id="connector1" name="A1" type="male" checkLevel="2">
+      <description>the connector 1</description>
+      <views>
+        <breadboardView checkLevel="2">
+          <p layer="breadboard" svgId="connector1pin" terminalId="connector1terminal"/>
+        </breadboardView>
+        <schematicView checkLevel="2">
+          <p layer="schematic" svgId="connector1pin" terminalId="connector1terminal"/>
+        </schematicView>
+        <pcbView checkLevel="2">
+          <p layer="copper1" svgId="connector1pin" checkLevel="2"/>
+          <p layer="copper0" svgId="connector1pin" checkLevel="2"/>
+        </pcbView>
+      </views>
+    </connector>
+  </connectors>
+  <buses checkLevel="0">
+    <bus id="busname" checkLevel="0">
+      <nodeMember connectorId="connector1"/>
+      <nodeMember connectorId="connector2"/>
+    </bus>
+  </buses>
+</module>
