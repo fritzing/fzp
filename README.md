@@ -31,6 +31,8 @@
     - [`breadboardView`](#breadboardview)
     - [`schematicView`](#schematicview)
     - [`pcbView`](#pcbview)
+      - [`copper0`](#copper0)
+      - [`copper1`](#copper1)
   - [`connectors`](#connectors)
     - [`connector`](#connector)
       - [`description`](#description)
