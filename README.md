@@ -47,6 +47,8 @@ read more about the fzp format at:
 
 ## Sample `fzp`
 
+TO DO: use template.fzp to load the structure of the fzp
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <module fritzingVersion="x.y.z" moduleId="mod-id-rev" referenceFile="ref.file">
@@ -73,6 +75,13 @@ A complete sample file can be found [here](sample.fzp)
 
 ## Tools
 [![Build Status](https://travis-ci.org/fritzing/fzp.svg)](https://travis-ci.org/fritzing/fzp)
+
+### template.fzp ckeckLevel
+
+the template.fzp has a checkLevel identifier for the automated travis checks.  
+this checkLevel defines how important the xml-tag of the fzp-xml is, for the fritzing-part.
+
+
 
 ### Validator
 simple and fast validator to test the fritzing-parts repository (over 14k parts).  
