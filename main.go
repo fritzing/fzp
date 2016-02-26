@@ -20,7 +20,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "validator"
 	app.Usage = "fzp validator"
-	app.Version = "0.2.1"
+	app.Version = "0.2.2"
 	app.Author = "paul vollmer"
 	app.Email = "https://github.com/paulvollmer/fzp"
 
@@ -83,10 +83,10 @@ func main() {
 				// 	Name:  "no-check-taxonomy, nD",
 				// 	Usage: "disable <taxonomy> check",
 				// },
-				// cli.BoolFlag{
-				// 	Name:  "no-check-family, nD",
-				// 	Usage: "disable <family> check",
-				// },
+				 cli.BoolFlag{
+				 	Name:  "no-check-family, nD",
+				 	Usage: "disable <family> check",
+				},
 				// cli.BoolFlag{
 				// 	Name:  "no-check-variant, nD",
 				// 	Usage: "disable <variant> check",
@@ -205,12 +205,12 @@ func validateFolder(c *cli.Context, src string) []error {
 func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 	checkErrorCounter := 0
 
-	if !c.Bool("no-check-fritzingversion") {
+	/*if !c.Bool("no-check-fritzingversion") {
 		if err := fzpData.CheckFritzingVersion(); err != nil {
 			fmt.Println("=>", err)
 			checkErrorCounter++
 		}
-	}
+	}*/
 
 	if !c.Bool("no-check-moduleid") {
 		if err := fzpData.CheckModuleId(); err != nil {
@@ -221,15 +221,22 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 
 	// ReferenceFile
 
-	if !c.Bool("no-check-version") {
+	/*if !c.Bool("no-check-version") {
 		if err := fzpData.CheckVersion(); err != nil {
 			fmt.Println("=>", err)
 			checkErrorCounter++
 		}
-	}
+	}*/
 
 	if !c.Bool("no-check-title") {
 		if err := fzpData.CheckTitle(); err != nil {
+			fmt.Println("=>", err)
+			checkErrorCounter++
+		}
+	}
+	
+	if !c.Bool("no-check-family") {
+		if err := fzpData.CheckFamily(); err != nil {
 			fmt.Println("=>", err)
 			checkErrorCounter++
 		}
@@ -244,12 +251,12 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 	// Check Family ?
 	// Check Variant ?
 
-	if !c.Bool("no-check-tags") {
+	/*if !c.Bool("no-check-tags") {
 		if err := fzpData.CheckTags(); err != nil {
 			fmt.Println("=>", err)
 			checkErrorCounter++
 		}
-	}
+	}*/
 
 	if !c.Bool("no-check-properties") {
 		if err := fzpData.CheckProperties(); err != nil {
