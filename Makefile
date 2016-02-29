@@ -8,3 +8,6 @@ test:
 
 build:
 	@cd bin/fzp && go build
+
+clean:
+	@go clean ./...
