@@ -7,3 +7,6 @@ test:
 
 build:
 	@cd bin/fzp && go build && ./fzp --help
+
+clean:
+	@go clean ./...
