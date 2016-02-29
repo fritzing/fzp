@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/codegangsta/cli"
-	"github.com/paulvollmer/fzp/go"
+	"github.com/fritzing/fzp/src/go"
 	"io/ioutil"
 	"os"
 	"strconv"

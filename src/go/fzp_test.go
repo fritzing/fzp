@@ -16,7 +16,7 @@ func Test_IsFileFzp(t *testing.T) {
 }
 
 func Test_ReadFzp_Ok(t *testing.T) {
-	f, err := ReadFzp("../sample.fzp")
+	f, err := ReadFzp("../../template.fzp")
 	if err != nil {
 		t.Error("Fzp.ReadFzp broken")
 	}
