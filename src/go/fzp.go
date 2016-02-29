@@ -19,9 +19,6 @@ type FZP struct {
 	Date            string      `xml:"date"`
 	URL             string      `xml:"url"`
 	Label           string      `xml:"label"`
-	Taxonomy        string      `xml:"taxonomy"`
-	Family          string      `xml:"family"`
-	Variant         string      `xml:"variant"`
 	Tags            []string    `xml:"tags>tag"`
 	Properties      []Property  `xml:"properties>property"`
 	Views           Views       `xml:"views"`
