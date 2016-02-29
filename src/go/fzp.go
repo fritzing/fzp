@@ -44,14 +44,14 @@ func IsFileFzp(src string) bool {
 func ReadFzp(src string) (Fzp, error) {
 	fzpData := Fzp{}
 	// read
-	fzpBytes, errRead := ioutil.ReadFile(src)
-	if errRead != nil {
-		return fzpData, errRead
+	fzpBytes, err := ioutil.ReadFile(src)
+	if err != nil {
+		return fzpData, err
 	}
 	// decode XML
-	errDecode := xml.Unmarshal(fzpBytes, &fzpData)
-	if errDecode != nil {
-		return fzpData, errDecode
+	err = xml.Unmarshal(fzpBytes, &fzpData)
+	if err != nil {
+		return fzpData, err
 	}
 	return fzpData, nil
 }
