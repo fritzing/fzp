@@ -68,6 +68,9 @@ func (f *FZP) WriteFzp(src string) error {
 	return nil
 }
 
+// func ReadJSON(src string) (FZP, error) {
+// }
+
 func (f *FZP) WriteJSON(src string) error {
 	data, err := json.MarshalIndent(f, "", "  ")
 	if err != nil {
