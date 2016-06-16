@@ -5,14 +5,14 @@ import (
 	"strconv"
 )
 
-func (f *FZP) CheckFritzingVersion() error {
+func (f *Fzp) CheckFritzingVersion() error {
 	if f.FritzingVersion == "" {
 		return errors.New("fritzingVersion undefined")
 	}
 	return nil
 }
 
-func (f *FZP) CheckModuleId() error {
+func (f *Fzp) CheckModuleId() error {
 	if f.ModuleId == "" {
 		return errors.New("moduleId undefined")
 	}
@@ -21,28 +21,28 @@ func (f *FZP) CheckModuleId() error {
 
 // TODO: is the referenceFile required?
 
-func (f *FZP) CheckVersion() error {
+func (f *Fzp) CheckVersion() error {
 	if f.Version == "" {
 		return errors.New("version undefined")
 	}
 	return nil
 }
 
-func (f *FZP) CheckTitle() error {
+func (f *Fzp) CheckTitle() error {
 	if f.Title == "" {
 		return errors.New("title undefined")
 	}
 	return nil
 }
 
-func (f *FZP) CheckDescription() error {
+func (f *Fzp) CheckDescription() error {
 	if f.Description == "" {
 		return errors.New("description undefined")
 	}
 	return nil
 }
 
-func (f *FZP) CheckAuthor() error {
+func (f *Fzp) CheckAuthor() error {
 	if f.Author == "" {
 		return errors.New("author undefined")
 	}
@@ -56,7 +56,7 @@ func (f *FZP) CheckAuthor() error {
 // Check Family ?
 // Check Variant ?
 
-func (f *FZP) CheckTags() (error, int) {
+func (f *Fzp) CheckTags() (error, int) {
 	countBrokenTags := 0
 
 	if len(f.Tags) != 0 {
@@ -75,7 +75,7 @@ func (f *FZP) CheckTags() (error, int) {
 	}
 }
 
-func (f *FZP) CheckProperties() error {
+func (f *Fzp) CheckProperties() error {
 	if len(f.Properties) != 0 {
 		for _, property := range f.Properties {
 			if err := property.CheckName(); err != nil {
@@ -89,12 +89,12 @@ func (f *FZP) CheckProperties() error {
 	return nil
 }
 
-func (f *FZP) CheckViews() error {
+func (f *Fzp) CheckViews() error {
 	// TODO: ...
 	return nil
 }
 
-func (f *FZP) CheckConnectors() error {
+func (f *Fzp) CheckConnectors() error {
 	if len(f.Connectors) != 0 {
 		for _, connector := range f.Connectors {
 			if err := connector.Check(); err != nil {
@@ -105,7 +105,7 @@ func (f *FZP) CheckConnectors() error {
 	return nil
 }
 
-func (f *FZP) CheckBuses() error {
+func (f *Fzp) CheckBuses() error {
 	if len(f.Buses) != 0 {
 		for _, bus := range f.Buses {
 			if err := bus.CheckId(); err != nil {
@@ -117,7 +117,7 @@ func (f *FZP) CheckBuses() error {
 }
 
 // check all the data
-func (f *FZP) Check() []error {
+func (f *Fzp) Check() []error {
 	var errList []error
 
 	if err := f.CheckFritzingVersion(); err != nil {
