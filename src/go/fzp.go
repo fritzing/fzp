@@ -1,6 +1,7 @@
 package fzp
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"io/ioutil"
@@ -9,25 +10,25 @@ import (
 )
 
 type Fzp struct {
-	XMLName         xml.Name    `xml:"module"`
-	FritzingVersion string      `xml:"fritzingVersion,attr"`
-	ModuleId        string      `xml:"moduleId,attr"`
-	ReferenceFile   string      `xml:"referenceFile,attr"`
-	Version         string      `xml:"version"`
-	Title           string      `xml:"title"`
-	Description     string      `xml:"description"`
-	Author          string      `xml:"author"`
-	Date            string      `xml:"date"`
-	URL             string      `xml:"url"`
-	Label           string      `xml:"label"`
+	XMLName         xml.Name `xml:"module"`
+	FritzingVersion string   `xml:"fritzingVersion,attr"`
+	ModuleId        string   `xml:"moduleId,attr"`
+	ReferenceFile   string   `xml:"referenceFile,attr"`
+	Version         string   `xml:"version"`
+	Title           string   `xml:"title"`
+	Description     string   `xml:"description"`
+	Author          string   `xml:"author"`
+	Date            string   `xml:"date"`
+	URL             string   `xml:"url"`
+	Label           string   `xml:"label"`
 	//Taxonomy        string      `xml:"taxonomy"`
 	//Family          string      `xml:"family"`
 	//Variant         string      `xml:"variant"`
-	Tags            []string    `xml:"tags>tag"`
-	Properties      []Property  `xml:"properties>property"`
-	Views           Views       `xml:"views"`
-	Connectors      []Connector `xml:"connectors>connector"`
-	Buses           []Bus       `xml:"buses>bus"`
+	Tags       []string    `xml:"tags>tag"`
+	Properties []Property  `xml:"properties>property"`
+	Views      Views       `xml:"views"`
+	Connectors []Connector `xml:"connectors>connector"`
+	Buses      []Bus       `xml:"buses>bus"`
 }
 
 const FileExtensionFzp = ".fzp"
@@ -82,6 +83,16 @@ func (f *Fzp) CheckVersion() error {
 func (f *Fzp) CheckTitle() error {
 	if f.Title == "" {
 		return errors.New("title undefined")
+	}
+}
+
+// func ReadJSON(src string) (FZP, error) {
+// }
+
+func (f *FZP) WriteJSON(src string) error {
+	data, err := json.MarshalIndent(f, "", "  ")
+	if err != nil {
+		return err
 	}
 	return nil
 }

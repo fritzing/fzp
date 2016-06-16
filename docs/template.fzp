@@ -12,11 +12,8 @@
     <tag>tagvalue2</tag>
     <tag>tagvalue3</tag>
   </tags>
-  <taxonomy checkLevel="0">txnmy</taxonomy>
-  <family checkLevel="2">fam1</family>
-  <variant checkLevel="2">variant1</variant>
   <properties checkLevel="2">
-    <property name="x" checkLevel="2">value-1</property>
+    <property name="family" checkLevel="2">value-1</property>
     <property name="x" checkLevel="1">value-2</property>
     <property name="x" checkLevel="1">value-3</property>
   </properties>
