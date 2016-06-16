@@ -4,6 +4,8 @@ import (
 	"encoding/xml"
 	"errors"
 	"io/ioutil"
+	"path/filepath"
+	"strconv"
 )
 
 type Fzp struct {
@@ -18,9 +20,9 @@ type Fzp struct {
 	Date            string      `xml:"date"`
 	URL             string      `xml:"url"`
 	Label           string      `xml:"label"`
-	Taxonomy        string      `xml:"taxonomy"`
-	Family          string      `xml:"family"`
-	Variant         string      `xml:"variant"`
+	//Taxonomy        string      `xml:"taxonomy"`
+	//Family          string      `xml:"family"`
+	//Variant         string      `xml:"variant"`
 	Tags            []string    `xml:"tags>tag"`
 	Properties      []Property  `xml:"properties>property"`
 	Views           Views       `xml:"views"`
@@ -28,32 +30,42 @@ type Fzp struct {
 	Buses           []Bus       `xml:"buses>bus"`
 }
 
+const FileExtensionFzp = ".fzp"
+
+func IsFileFzp(src string) bool {
+	if filepath.Ext(src) == FileExtensionFzp {
+		return true
+	} else {
+		return false
+	}
+}
+
 // ReadFzp and decode xml data
 func ReadFzp(src string) (Fzp, error) {
 	fzpData := Fzp{}
 	// read
-	fzpBytes, errRead := ioutil.ReadFile(src)
-	if errRead != nil {
-		return fzpData, errRead
+	fzpBytes, err := ioutil.ReadFile(src)
+	if err != nil {
+		return fzpData, err
 	}
 	// decode XML
-	errDecode := xml.Unmarshal(fzpBytes, &fzpData)
-	if errDecode != nil {
-		return fzpData, errDecode
+	err = xml.Unmarshal(fzpBytes, &fzpData)
+	if err != nil {
+		return fzpData, err
 	}
 	return fzpData, nil
 }
 
 func (f *Fzp) CheckFritzingVersion() error {
 	if f.FritzingVersion == "" {
-		return errors.New("Missing fritzingVersion")
+		return errors.New("fritzingVersion undefined")
 	}
 	return nil
 }
 
 func (f *Fzp) CheckModuleId() error {
 	if f.ModuleId == "" {
-		return errors.New("Missing moduleId")
+		return errors.New("moduleId undefined")
 	}
 	return nil
 }
@@ -62,20 +74,32 @@ func (f *Fzp) CheckModuleId() error {
 
 func (f *Fzp) CheckVersion() error {
 	if f.Version == "" {
-		return errors.New("Missing version")
+		return errors.New("version undefined")
 	}
 	return nil
 }
 
 func (f *Fzp) CheckTitle() error {
 	if f.Title == "" {
-		return errors.New("Missing title")
+		return errors.New("title undefined")
 	}
 	return nil
 }
 
-// Check Description ?
-// Check Author ?
+func (f *Fzp) CheckDescription() error {
+	if f.Description == "" {
+		return errors.New("description undefined")
+	}
+	return nil
+}
+
+func (f *Fzp) CheckAuthor() error {
+	if f.Author == "" {
+		return errors.New("author undefined")
+	}
+	return nil
+}
+
 // Check Date ?
 // Check URL ?
 // Check Label ?
@@ -83,15 +107,23 @@ func (f *Fzp) CheckTitle() error {
 // Check Family ?
 // Check Variant ?
 
-func (f *Fzp) CheckTags() error {
+func (f *Fzp) CheckTags() (error, int) {
+	countBrokenTags := 0
+
 	if len(f.Tags) != 0 {
 		for _, tag := range f.Tags {
 			if tag == "" {
-				return errors.New("tag value undefined!")
+				countBrokenTags++
 			}
 		}
 	}
-	return nil
+
+	if countBrokenTags == 0 {
+		return nil, countBrokenTags
+	} else {
+		errMsg := strconv.Itoa(countBrokenTags) + " tag value/s undefined"
+		return errors.New(errMsg), countBrokenTags
+	}
 }
 
 func (f *Fzp) CheckProperties() error {
@@ -151,8 +183,9 @@ func (f *Fzp) Check() []error {
 	if err := f.CheckTitle(); err != nil {
 		errList = append(errList, err)
 	}
-	if err := f.CheckTags(); err != nil {
-		errList = append(errList, err)
+	errTags, _ := f.CheckTags()
+	if errTags != nil {
+		errList = append(errList, errTags)
 	}
 	if err := f.CheckProperties(); err != nil {
 		errList = append(errList, err)

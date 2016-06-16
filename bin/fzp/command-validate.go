@@ -4,132 +4,104 @@ import (
 	"errors"
 	"fmt"
 	"github.com/codegangsta/cli"
-	"github.com/paulvollmer/fzp/go"
+	"github.com/fritzing/fzp/src/go"
 	"io/ioutil"
 	"os"
-	"path/filepath"
 	"strconv"
 )
 
-var (
-	verbose bool
-)
-
-func main() {
-	verbose = false
-	app := cli.NewApp()
-	app.Name = "validator"
-	app.Usage = "fzp validator"
-	app.Version = "0.2.2"
-	app.Author = "paul vollmer"
-	app.Email = "https://github.com/paulvollmer/fzp"
-
-	app.Commands = []cli.Command{
-		{
-			Name:  "validate",
-			Usage: "validate fzp file/files",
-			Flags: []cli.Flag{
-				// data input
-				cli.StringFlag{
-					Name:  "file, f",
-					Usage: "the fzp filepath",
-				},
-				cli.StringFlag{
-					Name:  "dir, d",
-					Usage: "the fzp files directory",
-				},
-				// data check settings
-				cli.BoolFlag{
-					Name:  "no-check-fritzingversion, nf",
-					Usage: "disable fritzingVersion check",
-				},
-				cli.BoolFlag{
-					Name:  "no-check-moduleid, nm",
-					Usage: "disable moduleid check",
-				},
-				cli.BoolFlag{
-					Name:  "no-check-referencefile, nr",
-					Usage: "disable referenceFile check",
-				},
-				cli.BoolFlag{
-					Name:  "no-check-version, nv",
-					Usage: "disable <version> check",
-				},
-				cli.BoolFlag{
-					Name:  "no-check-title, nt",
-					Usage: "disable <title> check",
-				},
-				cli.BoolFlag{
-					Name:  "no-check-description, nd",
-					Usage: "disable <description> check",
-				},
-				// cli.BoolFlag{
-				// 	Name:  "no-check-author, na",
-				// 	Usage: "disable <author> check",
-				// },
-				// cli.BoolFlag{
-				// 	Name:  "no-check-date, nD",
-				// 	Usage: "disable <date> check",
-				// },
-				// cli.BoolFlag{
-				// 	Name:  "no-check-url, nD",
-				// 	Usage: "disable <url> check",
-				// },
-				// cli.BoolFlag{
-				// 	Name:  "no-check-label, nD",
-				// 	Usage: "disable <label> check",
-				// },
-				// cli.BoolFlag{
-				// 	Name:  "no-check-taxonomy, nD",
-				// 	Usage: "disable <taxonomy> check",
-				// },
-				 cli.BoolFlag{
-				 	Name:  "no-check-family, nD",
-				 	Usage: "disable <family> check",
-				},
-				// cli.BoolFlag{
-				// 	Name:  "no-check-variant, nD",
-				// 	Usage: "disable <variant> check",
-				// },
-				cli.BoolFlag{
-					Name:  "no-check-tags, nT",
-					Usage: "disable <tags> check",
-				},
-				cli.BoolFlag{
-					Name:  "no-check-properties, np",
-					Usage: "disable <properties> check",
-				},
-				cli.BoolFlag{
-					Name:  "no-check-views, nV",
-					Usage: "disable <views> check",
-				},
-				cli.BoolFlag{
-					Name:  "no-check-connectors, nc",
-					Usage: "disable <connectors> check",
-				},
-				cli.BoolFlag{
-					Name:  "no-check-buses, nb",
-					Usage: "disable <buses> check",
-				},
-				// utils
-				cli.BoolFlag{
-					Name:  "verbose, V",
-					Usage: "verbose mode",
-				},
-			},
-			Action: cliValidateAction,
-		},
-	}
-
-	app.Action = func(c *cli.Context) {
-		cli.ShowAppHelp(c)
-		os.Exit(0)
-	}
-
-	app.Run(os.Args)
+var commandValidateFlags = []cli.Flag{
+	// data input
+	cli.StringFlag{
+		Name:  "file, f",
+		Usage: "the fzp filepath",
+	},
+	cli.StringFlag{
+		Name:  "dir, d",
+		Usage: "the fzp files directory",
+	},
+	// data check settings
+	cli.BoolFlag{
+		Name:  "no-check-fritzingversion, nf",
+		Usage: "disable fritzingVersion check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-moduleid, nm",
+		Usage: "disable moduleid check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-referencefile, nr",
+		Usage: "disable referenceFile check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-version, nv",
+		Usage: "disable <version> check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-title, nt",
+		Usage: "disable <title> check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-description, nd",
+		Usage: "disable <description> check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-author, na",
+		Usage: "disable <author> check",
+	},
+	// cli.BoolFlag{
+	// 	Name:  "no-check-date, nD",
+	// 	Usage: "disable <date> check",
+	// },
+	// cli.BoolFlag{
+	// 	Name:  "no-check-url, nD",
+	// 	Usage: "disable <url> check",
+	// },
+	// cli.BoolFlag{
+	// 	Name:  "no-check-label, nD",
+	// 	Usage: "disable <label> check",
+	// },
+	// cli.BoolFlag{
+	// 	Name:  "no-check-taxonomy, nD",
+	// 	Usage: "disable <taxonomy> check",
+	// },
+	cli.BoolFlag{
+		Name:  "no-check-family, nD",
+		Usage: "disable <family> check",
+	},
+	// cli.BoolFlag{
+	// 	Name:  "no-check-variant, nD",
+	// 	Usage: "disable <variant> check",
+	// },
+	cli.BoolFlag{
+		Name:  "no-check-tags, nT",
+		Usage: "disable <tags> check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-properties, np",
+		Usage: "disable <properties> check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-views, nV",
+		Usage: "disable <views> check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-connectors, nc",
+		Usage: "disable <connectors> check",
+	},
+	cli.BoolFlag{
+		Name:  "no-check-buses, nb",
+		Usage: "disable <buses> check",
+	},
+	// utils
+	cli.BoolFlag{
+		Name:  "verbose, V",
+		Usage: "verbose mode",
+	},
 }
 
-func cliValidateAction(c *cli.Context) {
+func commandValidateAction(c *cli.Context) {
+	fmt.Println("validate fzp file")
 	// get cli flag value
 	fzpFile := c.String("file")
 	fzpDir := c.String("dir")
@@ -192,7 +164,7 @@ func validateFolder(c *cli.Context, src string) []error {
 		filename := v.Name()
 		// fmt.Printf("file %v: %v\n", k, filename)
 		// check if file is a fzp file
-		if isExtFzp(filename) {
+		if fzp.IsFileFzp(filename) {
 			if err := validateFile(c, src+"/"+filename); err != nil {
 				errList = append(errList, err)
 				fmt.Println(err, "\n")
@@ -234,7 +206,7 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 			checkErrorCounter++
 		}
 	}
-	
+
 	/*if !c.Bool("no-check-family") {
 		if err := fzpData.CheckFamily(); err != nil {
 			fmt.Println("=>", err)
@@ -242,8 +214,20 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 		}
 	}*/
 
-	// Check Description ?
-	// Check Author ?
+	if !c.Bool("no-check-description") {
+		if err := fzpData.CheckDescription(); err != nil {
+			fmt.Println("=>", err)
+			checkErrorCounter++
+		}
+	}
+
+	if !c.Bool("no-check-author") {
+		if err := fzpData.CheckAuthor(); err != nil {
+			fmt.Println("=>", err)
+			checkErrorCounter++
+		}
+	}
+
 	// Check Date ?
 	// Check URL ?
 	// Check Label ?
@@ -265,15 +249,14 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 		}
 	}
 
-	return checkErrorCounter
-}
-
-func isExtFzp(src string) bool {
-	if filepath.Ext(src) == ".fzp" {
-		return true
-	} else {
-		return false
+	if !c.Bool("no-check-buses") {
+		if err := fzpData.CheckBuses(); err != nil {
+			fmt.Println("=>", err)
+			checkErrorCounter++
+		}
 	}
+
+	return checkErrorCounter
 }
 
 func Log(format string, a ...interface{}) {

@@ -5,3 +5,8 @@ type ConnectorLayer struct {
 	SvgId      string `xml:"svgId,attr"`
 	TerminalId string `xml:"terminalId,attr"`
 }
+
+func NewConnectorLayer() ConnectorLayer {
+	cLayer := ConnectorLayer{}
+	return cLayer
+}

@@ -6,3 +6,8 @@ type Views struct {
 	Pcb        ViewLayers `xml:"pcbView>layers"`
 	Schematic  ViewLayers `xml:"schematicView>layers"`
 }
+
+func NewViews() Views {
+	v := Views{}
+	return v
+}
