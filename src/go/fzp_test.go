@@ -4,19 +4,41 @@ import (
 	"testing"
 )
 
-func Test_IsFileFzp(t *testing.T) {
-	result := IsFileFzp("data.fzp")
+func Test_HasExtFzp(t *testing.T) {
+	result := HasExtFzp("data.fzp")
 	if !result {
-		t.Error("IsFileFzp broken")
+		t.Error("HasExtFzp failed")
 	}
-	result = IsFileFzp("data.notafzp")
+	result = HasExtFzp("data.notafzp")
 	if result {
-		t.Error("IsFileFzp broken")
+		t.Error("IsFileFzp failed")
+	}
+}
+
+func Test_HasExtJSON(t *testing.T) {
+	result := HasExtJSON("data.json")
+	if !result {
+		t.Error("HasExtJSON failed")
+	}
+	result = HasExtJSON("data.notajson")
+	if result {
+		t.Error("IsFileJSON failed")
+	}
+}
+
+func Test_HasExtYAML(t *testing.T) {
+	result := HasExtYAML("data.yml")
+	if !result {
+		t.Error("HasExtYAML failed")
+	}
+	result = HasExtYAML("data.notayml")
+	if result {
+		t.Error("IsFileYAML failed")
 	}
 }
 
 func Test_ReadFzp_Ok(t *testing.T) {
-	f, err := ReadFzp("../../template.fzp")
+	f, _, err := ReadFzp("../../docs/template.fzp")
 	if err != nil {
 		t.Error("Fzp.ReadFzp broken")
 	}
@@ -28,7 +50,7 @@ func Test_ReadFzp_Ok(t *testing.T) {
 }
 
 func Test_ReadFzp_Failed(t *testing.T) {
-	_, err := ReadFzp("../not.found")
+	_, _, err := ReadFzp("../not.found")
 	if err == nil {
 		t.Error("Fzp.ReadFzp (that doesn't exists) broken")
 	}

@@ -5,6 +5,7 @@ import (
 	"strconv"
 )
 
+// CheckFritzingVersion validate the FritzingVersion data
 func (f *Fzp) CheckFritzingVersion() error {
 	if f.FritzingVersion == "" {
 		return errors.New("fritzingVersion undefined")
@@ -12,8 +13,9 @@ func (f *Fzp) CheckFritzingVersion() error {
 	return nil
 }
 
-func (f *Fzp) CheckModuleId() error {
-	if f.ModuleId == "" {
+// CheckModuleID validate the ModuleID data
+func (f *Fzp) CheckModuleID() error {
+	if f.ModuleID == "" {
 		return errors.New("moduleId undefined")
 	}
 	return nil
@@ -21,6 +23,7 @@ func (f *Fzp) CheckModuleId() error {
 
 // TODO: is the referenceFile required?
 
+// CheckVersion validate the Version data
 func (f *Fzp) CheckVersion() error {
 	if f.Version == "" {
 		return errors.New("version undefined")
@@ -28,6 +31,7 @@ func (f *Fzp) CheckVersion() error {
 	return nil
 }
 
+// CheckTitle validate the Title data
 func (f *Fzp) CheckTitle() error {
 	if f.Title == "" {
 		return errors.New("title undefined")
@@ -35,6 +39,7 @@ func (f *Fzp) CheckTitle() error {
 	return nil
 }
 
+// CheckDescription validate the Description data
 func (f *Fzp) CheckDescription() error {
 	if f.Description == "" {
 		return errors.New("description undefined")
@@ -42,6 +47,7 @@ func (f *Fzp) CheckDescription() error {
 	return nil
 }
 
+// CheckAuthor validate the Author data
 func (f *Fzp) CheckAuthor() error {
 	if f.Author == "" {
 		return errors.New("author undefined")
@@ -56,6 +62,7 @@ func (f *Fzp) CheckAuthor() error {
 // Check Family ?
 // Check Variant ?
 
+// CheckTags validate the Tags data
 func (f *Fzp) CheckTags() (error, int) {
 	countBrokenTags := 0
 
@@ -69,12 +76,12 @@ func (f *Fzp) CheckTags() (error, int) {
 
 	if countBrokenTags == 0 {
 		return nil, countBrokenTags
-	} else {
-		errMsg := strconv.Itoa(countBrokenTags) + " tag value/s undefined"
-		return errors.New(errMsg), countBrokenTags
 	}
+	errMsg := strconv.Itoa(countBrokenTags) + " tag value/s undefined"
+	return errors.New(errMsg), countBrokenTags
 }
 
+// CheckProperties validate the Properties data
 func (f *Fzp) CheckProperties() error {
 	if len(f.Properties) != 0 {
 		for _, property := range f.Properties {
@@ -89,11 +96,13 @@ func (f *Fzp) CheckProperties() error {
 	return nil
 }
 
+// CheckViews validate the Views data
 func (f *Fzp) CheckViews() error {
 	// TODO: ...
 	return nil
 }
 
+// CheckConnectors validate the Connectors data
 func (f *Fzp) CheckConnectors() error {
 	if len(f.Connectors) != 0 {
 		for _, connector := range f.Connectors {
@@ -105,10 +114,11 @@ func (f *Fzp) CheckConnectors() error {
 	return nil
 }
 
+// CheckBuses validate the Buses data
 func (f *Fzp) CheckBuses() error {
 	if len(f.Buses) != 0 {
 		for _, bus := range f.Buses {
-			if err := bus.CheckId(); err != nil {
+			if err := bus.CheckID(); err != nil {
 				return err
 			}
 		}
@@ -116,14 +126,14 @@ func (f *Fzp) CheckBuses() error {
 	return nil
 }
 
-// check all the data
+// Check the whole Fzp data
 func (f *Fzp) Check() []error {
 	var errList []error
 
 	if err := f.CheckFritzingVersion(); err != nil {
 		errList = append(errList, err)
 	}
-	if err := f.CheckModuleId(); err != nil {
+	if err := f.CheckModuleID(); err != nil {
 		errList = append(errList, err)
 	}
 	if err := f.CheckVersion(); err != nil {

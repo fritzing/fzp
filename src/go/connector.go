@@ -1,21 +1,25 @@
 package fzp
 
+// Connector represet a fzp Connector data object
 type Connector struct {
-	Id             string           `xml:"id,attr"`
-	Name           string           `xml:"name,attr"`
-	Type           string           `xml:"type,attr"`
-	Description    string           `xml:"description"`
-	BreadboardView []ConnectorLayer `xml:"views>breadboardView>p"`
-	PcbView        []ConnectorLayer `xml:"views>pcbView>p"`
-	SchematicView  []ConnectorLayer `xml:"views>schematicView>p"`
+	ID             string           `xml:"id,attr"                json:"id"`
+	Name           string           `xml:"name,attr"              json:"name"`
+	Type           string           `xml:"type,attr"              json:"type"`
+	Description    string           `xml:"description"            json:"description"`
+	BreadboardView []ConnectorLayer `xml:"views>breadboardView>p" json:"breadboard"`
+	PcbView        []ConnectorLayer `xml:"views>pcbView>p"        json:"pcb"`
+	SchematicView  []ConnectorLayer `xml:"views>schematicView>p"  json:"schematic"`
 }
 
+// NewConnector returns a Connector object
 func NewConnector(id string) Connector {
 	con := Connector{}
-	con.Id = id
+	con.ID = id
 	return con
 }
 
-func (b *Connector) Check() error {
+// Check validate the Connector data
+func (c *Connector) Check() error {
+	// TODO: create check rules
 	return nil
 }
