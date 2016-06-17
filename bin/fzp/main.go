@@ -1,13 +1,10 @@
 package main
 
 import (
-	// "errors"
-	// "fmt"
-	"github.com/codegangsta/cli"
-	// "github.com/fritzing/fzp/src/go"
-	// "io/ioutil"
-	// "strconv"
+	"fmt"
 	"os"
+
+	"github.com/urfave/cli"
 )
 
 var (
@@ -19,7 +16,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "fzp"
 	app.Usage = "fzp tool (validator, encoder)"
-	app.Version = "0.2.3"
+	app.Version = "0.2.4"
 	app.Email = "https://github.com/fritzing/fzp"
 	app.Commands = []cli.Command{
 		{
@@ -29,21 +26,33 @@ func main() {
 			Action: commandValidateAction,
 		},
 		{
+			Name:   "encode",
+			Usage:  "read a fzp file and encode to json",
+			Flags:  commandEncodeFlags,
+			Action: commandEncodeAction,
+		},
+		{
+			Name:   "format",
+			Usage:  "read a fzp file and format it",
+			Flags:  commandFormatFlags,
+			Action: commandFormatAction,
+		},
+		{
 			Name:   "create",
 			Usage:  "create a new template fzp file",
 			Flags:  commandCreateFlags,
 			Action: commandCreateAction,
 		},
-		{
-			Name:   "encode",
-			Usage:  "read fzp file and encode to json",
-			Flags:  commandEncodeFlags,
-			Action: commandEncodeAction,
-		},
 	}
 	app.Action = func(c *cli.Context) {
 		cli.ShowAppHelp(c)
-		os.Exit(0)
+		return
 	}
 	app.Run(os.Args)
+}
+
+func Logf(format string, a ...interface{}) {
+	if verbose {
+		fmt.Printf(format, a...)
+	}
 }

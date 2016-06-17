@@ -3,11 +3,12 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/codegangsta/cli"
-	"github.com/fritzing/fzp/src/go"
 	"io/ioutil"
 	"os"
 	"strconv"
+
+	"github.com/fritzing/fzp/src/go"
+	"github.com/urfave/cli"
 )
 
 var commandValidateFlags = []cli.Flag{
@@ -100,7 +101,7 @@ var commandValidateFlags = []cli.Flag{
 	},
 }
 
-func commandValidateAction(c *cli.Context) {
+func commandValidateAction(c *cli.Context) error {
 	fmt.Println("validate fzp file")
 	// get cli flag value
 	fzpFile := c.String("file")
@@ -114,7 +115,7 @@ func commandValidateAction(c *cli.Context) {
 		}
 		os.Exit(0)
 	} else if fzpDir != "" {
-		Log("read folder '%v'\n", fzpDir)
+		Logf("read folder '%v'\n", fzpDir)
 		if err := validateFolder(c, fzpDir); err != nil {
 			os.Exit(1)
 		}
@@ -133,22 +134,23 @@ func commandValidateAction(c *cli.Context) {
 		fmt.Println("")
 		fmt.Println("also you can combine the other flags (no-check, verbose)")
 	}
+	return nil
 }
 
 func validateFile(c *cli.Context, src string) error {
-	fzpData, err := fzp.ReadFzp(src)
+	fzpData, _, err := fzp.ReadFzp(src)
 	if err != nil {
 		fmt.Printf("validator failed @ %v\n", err)
 		os.Exit(1)
 	}
-	Log("fzp file '%v' successful read\n", src, fzpData)
+	Logf("fzp file '%v' successful read\n", src, fzpData)
 
 	errCounter := checkData(c, fzpData)
 	if errCounter != 0 {
 		return errors.New(strconv.Itoa(errCounter) + " Errors @ " + src)
 	}
 
-	Log("fzp valid\n")
+	Logf("fzp valid\n")
 	return nil
 }
 
@@ -164,7 +166,7 @@ func validateFolder(c *cli.Context, src string) []error {
 		filename := v.Name()
 		// fmt.Printf("file %v: %v\n", k, filename)
 		// check if file is a fzp file
-		if fzp.IsFileFzp(filename) {
+		if fzp.HasExtFzp(filename) {
 			if err := validateFile(c, src+"/"+filename); err != nil {
 				errList = append(errList, err)
 				fmt.Println(err, "\n")
@@ -185,7 +187,7 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 	}*/
 
 	if !c.Bool("no-check-moduleid") {
-		if err := fzpData.CheckModuleId(); err != nil {
+		if err := fzpData.CheckModuleID(); err != nil {
 			fmt.Println("=>", err)
 			checkErrorCounter++
 		}
@@ -257,10 +259,4 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 	}
 
 	return checkErrorCounter
-}
-
-func Log(format string, a ...interface{}) {
-	if verbose {
-		fmt.Printf(format, a...)
-	}
 }
