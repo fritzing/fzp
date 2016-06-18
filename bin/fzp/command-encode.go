@@ -1,8 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"io/ioutil"
 	"os"
+	"path"
 
 	"github.com/fritzing/fzp/src/go"
 	"github.com/urfave/cli"
@@ -20,41 +23,93 @@ var commandEncodeFlags = []cli.Flag{
 }
 
 func commandEncodeAction(c *cli.Context) error {
-	fmt.Println("encode file")
-
 	flagInput := c.String("input")
 	flagOutput := c.String("output")
 	fmt.Println("in", flagInput, "out", flagOutput)
+
+	if flagInput == "" {
+		fmt.Println("missing -input flag")
+		os.Exit(1)
+	}
+	if flagOutput == "" {
+		fmt.Println("missing -output flag")
+		os.Exit(1)
+	}
+
+	dataHandler(flagInput, func() {
+
+		if err := encodeDir(flagInput, flagOutput); err != nil {
+			fmt.Println("Error", err)
+			os.Exit(127)
+		}
+
+	}, func() {
+
+		if err := encodeFile(flagInput, flagOutput); err != nil {
+			fmt.Println("Error", err)
+			os.Exit(127)
+		}
+
+	})
+
+	return nil
+}
+
+func encodeFile(source, out string) error {
+	// fmt.Println("encode file", source, out)
+
 	// read
-	loadedFzp, _, err := fzp.ReadFzp(flagInput)
+	format, _ := fzp.GetFormat(source)
+	if format != fzp.FormatFzp {
+		return errors.New("Error: input file '" + source + "' is not a fzp file!")
+	}
+	loadedFzp, _, err := fzp.ReadFzp(source)
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
+
+	// write := false
 
 	// format
-	var data []byte
-	switch flagOutput {
-	case "":
-		fmt.Println("missing out format or filepath. try xml, json or yaml")
-		os.Exit(127)
+	outFormat, isOutFile := fzp.GetFormat(out)
+	// fmt.Println("outFormat", outFormat)
 
-	case "xml":
-		data, err = loadedFzp.ToXML()
-		break
-
-	case "json":
-		data, err = loadedFzp.ToJSON()
-		break
-
-	case "yaml":
-		data, err = loadedFzp.ToYAML()
-		break
-	}
-
-	// return nil
+	formatted, err := loadedFzp.Marshal(outFormat)
 	if err != nil {
 		return err
 	}
-	fmt.Println(string(data))
+
+	if isOutFile {
+		err := ioutil.WriteFile(out, formatted, 0755)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
+		fmt.Printf("file %q successful written\n", out)
+		return nil
+	}
+
+	// if not write, print to stdout
+	fmt.Println(string(formatted))
+	return nil
+}
+
+func encodeDir(source, format string) error {
+	dirData, err := ioutil.ReadDir(source)
+	if err != nil {
+		return err
+	}
+	for i, v := range dirData {
+		fmt.Println(i, v.Name())
+		tmpFile := path.Join(source, v.Name())
+		format, _ := fzp.GetFormat(tmpFile)
+		if format == fzp.FormatFzp {
+			err := encodeFile(tmpFile, "format") //, runWrite, runDiff)
+			if err != nil {
+				fmt.Println(err)
+			}
+		}
+	}
 	return nil
 }

@@ -12,15 +12,16 @@ import (
 )
 
 var commandValidateFlags = []cli.Flag{
-	// data input
-	cli.StringFlag{
-		Name:  "file, f",
-		Usage: "the fzp filepath",
-	},
-	cli.StringFlag{
-		Name:  "dir, d",
-		Usage: "the fzp files directory",
-	},
+	// // data input
+	// cli.StringFlag{
+	// 	Name:  "file, f",
+	// 	Usage: "the fzp filepath",
+	// },
+	// cli.StringFlag{
+	// 	Name:  "dir, d",
+	// 	Usage: "the fzp files directory",
+	// },
+
 	// data check settings
 	cli.BoolFlag{
 		Name:  "no-check-fritzingversion, nf",
@@ -106,7 +107,7 @@ func commandValidateAction(c *cli.Context) error {
 	// get cli flag value
 	fzpFile := c.String("file")
 	fzpDir := c.String("dir")
-	verbose = c.Bool("verbose")
+
 	// process data
 	if fzpFile != "" {
 		if err := validateFile(c, fzpFile); err != nil {
@@ -115,7 +116,7 @@ func commandValidateAction(c *cli.Context) error {
 		}
 		os.Exit(0)
 	} else if fzpDir != "" {
-		Logf("read folder '%v'\n", fzpDir)
+		// Logf("read folder '%v'\n", fzpDir)
 		if err := validateFolder(c, fzpDir); err != nil {
 			os.Exit(1)
 		}
@@ -143,14 +144,14 @@ func validateFile(c *cli.Context, src string) error {
 		fmt.Printf("validator failed @ %v\n", err)
 		os.Exit(1)
 	}
-	Logf("fzp file '%v' successful read\n", src, fzpData)
+	// Logf("fzp file '%v' successful read\n", src, fzpData)
 
 	errCounter := checkData(c, fzpData)
 	if errCounter != 0 {
 		return errors.New(strconv.Itoa(errCounter) + " Errors @ " + src)
 	}
 
-	Logf("fzp valid\n")
+	// Logf("fzp valid\n")
 	return nil
 }
 
@@ -166,11 +167,11 @@ func validateFolder(c *cli.Context, src string) []error {
 		filename := v.Name()
 		// fmt.Printf("file %v: %v\n", k, filename)
 		// check if file is a fzp file
-		if fzp.HasExtFzp(filename) {
-			if err := validateFile(c, src+"/"+filename); err != nil {
-				errList = append(errList, err)
-				fmt.Println(err, "\n")
-			}
+		// if fzp.HasExtFzp(filename) {
+		if err := validateFile(c, src+"/"+filename); err != nil {
+			errList = append(errList, err)
+			fmt.Println(err)
+			// }
 		}
 	}
 	return errList

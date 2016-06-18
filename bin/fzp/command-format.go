@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/fritzing/fzp/src/go"
@@ -32,14 +34,36 @@ func commandFormatAction(c *cli.Context) error {
 		os.Exit(127)
 	}
 
-	// check if the source has an fzp suffix
 	source := tmpArgs[0]
-	if !fzp.HasExtFzp(source) {
-		fmt.Printf("the source %q is not a %s file\n", source, fzp.ExtFzp)
-		os.Exit(127)
+
+	formatDirHandler := func() {
+		err := formatFile(source, c.Bool("write"), c.Bool("diff"))
+		if err != nil {
+			fmt.Println("Error", err)
+			os.Exit(127)
+		}
 	}
 
-	fzpFile, fzpBytes, err := fzp.ReadFzp(source)
+	formatFileHandler := func() {
+		err := formatDir(source, c.Bool("write"), c.Bool("diff"))
+		if err != nil {
+			fmt.Println("Error", err)
+			os.Exit(127)
+		}
+	}
+
+	dataHandler(source, formatFileHandler, formatDirHandler)
+	return nil
+}
+
+func formatFile(filepath string, runWrite, runDiff bool) error {
+	format, _ := fzp.GetFormat(filepath)
+
+	if format != fzp.FormatFzp {
+		return errors.New("at the moment only fzp format supported")
+	}
+
+	fzpFile, fzpBytes, err := fzp.ReadFzp(filepath)
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -51,8 +75,8 @@ func commandFormatAction(c *cli.Context) error {
 		return err
 	}
 
-	if c.Bool("write") {
-		err := ioutil.WriteFile(source, formattedXML, 0755)
+	if runWrite {
+		err := ioutil.WriteFile(filepath, formattedXML, 0755)
 		if err != nil {
 			fmt.Println("Error", err)
 			os.Exit(127)
@@ -61,11 +85,11 @@ func commandFormatAction(c *cli.Context) error {
 	}
 
 	// diff
-	if c.Bool("diff") {
+	if runDiff {
 		diff := difflib.ContextDiff{
 			A:        difflib.SplitLines(string(fzpBytes)),
 			B:        difflib.SplitLines(string(formattedXML)),
-			FromFile: source,
+			FromFile: filepath,
 			ToFile:   "Current",
 			Context:  3,
 			Eol:      "\n",
@@ -76,5 +100,17 @@ func commandFormatAction(c *cli.Context) error {
 	}
 
 	fmt.Println(string(formattedXML))
+	return nil
+}
+
+func formatDir(filepath string, runWrite, runDiff bool) error {
+	dirData, err := ioutil.ReadDir(filepath)
+	if err != nil {
+		return err
+	}
+	for _, v := range dirData {
+		fmt.Println("i", v.Name())
+		formatFile(path.Join(filepath, v.Name()), runWrite, runDiff)
+	}
 	return nil
 }

@@ -1,21 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/urfave/cli"
 )
 
-var (
-	verbose bool
-)
-
 func main() {
-	verbose = false
 	app := cli.NewApp()
 	app.Name = "fzp"
-	app.Usage = "fzp tool (validator, encoder)"
+	app.Usage = "fzp tool (validator, encoder, formatter)"
 	app.Version = "0.2.4"
 	app.Email = "https://github.com/fritzing/fzp"
 	app.Commands = []cli.Command{
@@ -38,12 +32,21 @@ func main() {
 			Action: commandFormatAction,
 		},
 		{
+			Name:   "get",
+			Usage:  "get data from a fzp file",
+			Flags:  commandGetFlags,
+			Action: commandGetAction,
+		},
+		{
 			Name:   "create",
-			Usage:  "create a new template fzp file",
+			Usage:  "create a new fzp dataset",
 			Flags:  commandCreateFlags,
 			Action: commandCreateAction,
 		},
 	}
+	// cli.HelpPrinter = func(w io.Writer, templ string, data interface{}) {
+	// 	fmt.Println("TODO: better main help")
+	// }
 	app.Action = func(c *cli.Context) {
 		cli.ShowAppHelp(c)
 		return
@@ -51,8 +54,16 @@ func main() {
 	app.Run(os.Args)
 }
 
-func Logf(format string, a ...interface{}) {
-	if verbose {
-		fmt.Printf(format, a...)
+// check if the source is a directory of a file and call a handler func
+func dataHandler(source string, dir, file func()) {
+	finfo, err := os.Stat(source)
+	if err != nil { // no such file or dir
+		cli.NewExitError(err.Error(), 1)
+		os.Exit(127)
+	}
+	if finfo.IsDir() {
+		dir()
+	} else {
+		file()
 	}
 }

@@ -15,7 +15,7 @@ type Fzp struct {
 	XMLName         xml.Name `xml:"module"                json:"-"                 yaml:"-"`
 	FritzingVersion string   `xml:"fritzingVersion,attr"  json:"fritzingversion"   yaml:"fritzingversion"`
 	ModuleID        string   `xml:"moduleId,attr"         json:"moduleid"          yaml:"moduleid"`
-	ReferenceFile   string   `xml:"referenceFile,attr"    json:"referencefileurl"  yaml:"referencefile" yaml:"referencefile"`
+	ReferenceFile   string   `xml:"referenceFile,attr"    json:"referencefileurl"  yaml:"referencefile"`
 	Version         string   `xml:"version"               json:"version"           json:"version"`
 	Title           string   `xml:"title"                 json:"title"             json:"title"`
 	Description     string   `xml:"description"           json:"description"       json:"description"`
@@ -33,35 +33,58 @@ type Fzp struct {
 	Buses      []Bus       `xml:"buses>bus"              json:"busses"`
 }
 
+type Format int
+
 const (
-	// ExtFzp store the .fzp extension ast constant variable
-	ExtFzp = ".fzp"
-	// ExtJSON store the .fzp extension ast constant variable
-	ExtJSON = ".json"
-	// ExtYAML store the .fzp extension ast constant variable
-	ExtYAML = ".yml"
+	FormatNotSupported Format = iota
+	FormatUnknown
+	FormatFzp
+	FormatJSON
+	FormatYAML
 )
 
-func hasExt(ext, filename string) bool {
-	if filepath.Ext(filename) == ext {
-		return true
+func (f *Format) String() string {
+	switch *f {
+	case FormatNotSupported:
+		return "Format not supported"
+	case FormatUnknown:
+		return "Format unknown"
+	case FormatFzp:
+		return "Format Fzp"
+	case FormatJSON:
+		return "Format json"
+	case FormatYAML:
+		return "Format yaml"
 	}
-	return false
+	return ""
 }
 
-// HasExtFzp returns true if the filename has a .fzp suffix
-func HasExtFzp(filename string) bool {
-	return hasExt(ExtFzp, filename)
-}
+func GetFormat(src string) (Format, bool) {
+	// is it a filename with an extension?
+	tmp := filepath.Ext(src)
+	isFile := true
+	// fmt.Println("tmp", tmp)
+	if tmp == "" {
+		tmp = src
+		isFile = false
+	}
 
-// HasExtJSON returns true if the filename has a .json suffix
-func HasExtJSON(filename string) bool {
-	return hasExt(ExtJSON, filename)
-}
+	switch tmp {
+	case "":
+		return FormatUnknown, isFile
 
-// HasExtYAML returns true if the filename has a .yml suffix
-func HasExtYAML(filename string) bool {
-	return hasExt(ExtYAML, filename)
+	case "FZP", "fzp", ".FZP", ".fzp":
+		return FormatFzp, isFile
+
+	case "JSON", "json", ".JSON", ".json":
+		return FormatJSON, isFile
+
+	case "YAML", "yaml", "yml", ".YAML", ".yaml", ".yml":
+		return FormatYAML, isFile
+
+	default:
+		return FormatNotSupported, isFile
+	}
 }
 
 // ReadFzp and decode xml data
@@ -90,33 +113,33 @@ func ReadFzp(src string) (Fzp, []byte, error) {
 // }
 
 // Marshal the Fzp data object
-func (f *Fzp) Marshal(format string) ([]byte, error) {
+func (f *Fzp) Marshal(format Format) ([]byte, error) {
 	// fmt.Println("marshal", format)
 
 	var data []byte
 	var err error
 	switch format {
-	case "xml":
+	case FormatFzp:
 		// fmt.Println("...xml")
 		data, err = f.ToXML()
 		break
 
-	case "json":
+	case FormatJSON:
 		// fmt.Println("...json")
 		data, err = f.ToJSON()
 		break
 
-	case "yaml":
+	case FormatYAML:
 		// fmt.Println("...yaml")
 		data, err = f.ToYAML()
 		break
 
 	default:
-		errMsg := "format '" + format + "' not supported!\n"
-		errMsg += "you can choose between the following three formats:"
-		errMsg += "- xml (default)"
-		errMsg += "- json"
-		errMsg += "- yaml"
+		errMsg := "format '" + string(format) + "' not supported!\n"
+		errMsg += "you can choose between the following three formats:\n"
+		errMsg += "- fzp (default)\n"
+		errMsg += "- json\n"
+		errMsg += "- yml or yaml\n"
 		return []byte(""), errors.New(errMsg)
 	}
 
@@ -130,12 +153,15 @@ func (f *Fzp) Marshal(format string) ([]byte, error) {
 // ToXML encode the fzp data to yaml and returns a bytes array
 func (f *Fzp) ToXML() ([]byte, error) {
 	data, err := xml.MarshalIndent(f, "", "  ")
+	data = append([]byte("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"), data...)
+	data = append(data, []byte("\n")...)
 	return data, err
 }
 
 // ToJSON encode the fzp data to json and returns a bytes array
 func (f *Fzp) ToJSON() ([]byte, error) {
 	data, err := json.MarshalIndent(f, "", "  ")
+	data = append(data, []byte("\n")...)
 	return data, err
 }
 
@@ -146,31 +172,31 @@ func (f *Fzp) ToYAML() ([]byte, error) {
 }
 
 // WriteXML write the fzp data formatted as xml
-func (f *Fzp) WriteXML(src string) error {
-	data, err := f.ToXML()
-	if err != nil {
-		return err
-	}
-	err = ioutil.WriteFile(src, data, 0755)
-	return err
-}
-
-// WriteJSON write the fzp data formatted as json
-func (f *Fzp) WriteJSON(src string) error {
-	data, err := f.ToJSON()
-	if err != nil {
-		return err
-	}
-	err = ioutil.WriteFile(src, data, 0755)
-	return err
-}
-
-// WriteYAML write the fzp data formatted as yaml
-func (f *Fzp) WriteYAML(src string) error {
-	data, err := f.ToYAML()
-	if err != nil {
-		return err
-	}
-	err = ioutil.WriteFile(src, data, 0755)
-	return err
-}
+// func (f *Fzp) WriteXML(src string) error {
+// 	data, err := f.ToXML()
+// 	if err != nil {
+// 		return err
+// 	}
+// 	err = ioutil.WriteFile(src, data, 0755)
+// 	return err
+// }
+//
+// // WriteJSON write the fzp data formatted as json
+// func (f *Fzp) WriteJSON(src string) error {
+// 	data, err := f.ToJSON()
+// 	if err != nil {
+// 		return err
+// 	}
+// 	err = ioutil.WriteFile(src, data, 0755)
+// 	return err
+// }
+//
+// // WriteYAML write the fzp data formatted as yaml
+// func (f *Fzp) WriteYAML(src string) error {
+// 	data, err := f.ToYAML()
+// 	if err != nil {
+// 		return err
+// 	}
+// 	err = ioutil.WriteFile(src, data, 0755)
+// 	return err
+// }

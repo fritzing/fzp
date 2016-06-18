@@ -4,38 +4,62 @@ import (
 	"testing"
 )
 
-func Test_HasExtFzp(t *testing.T) {
-	result := HasExtFzp("data.fzp")
-	if !result {
-		t.Error("HasExtFzp failed")
+func Test_GetFormat(t *testing.T) {
+	format, _ := GetFormat("FZP")
+	if format != FormatFzp {
+		t.Error("not equal")
 	}
-	result = HasExtFzp("data.notafzp")
-	if result {
-		t.Error("IsFileFzp failed")
+
+	format, _ = GetFormat("data.fzp")
+	if format != FormatFzp {
+		t.Error("not equal")
+	}
+
+	format, _ = GetFormat("data.json")
+	if format != FormatJSON {
+		t.Error("not equal")
+	}
+
+	format, _ = GetFormat("data.yaml")
+	if format != FormatYAML {
+		t.Error("not equal")
 	}
 }
 
-func Test_HasExtJSON(t *testing.T) {
-	result := HasExtJSON("data.json")
-	if !result {
-		t.Error("HasExtJSON failed")
-	}
-	result = HasExtJSON("data.notajson")
-	if result {
-		t.Error("IsFileJSON failed")
-	}
-}
+//////////////
 
-func Test_HasExtYAML(t *testing.T) {
-	result := HasExtYAML("data.yml")
-	if !result {
-		t.Error("HasExtYAML failed")
-	}
-	result = HasExtYAML("data.notayml")
-	if result {
-		t.Error("IsFileYAML failed")
-	}
-}
+// func Test_HasExtFzp(t *testing.T) {
+// 	result := HasExtFzp("data.fzp")
+// 	if !result {
+// 		t.Error("HasExtFzp failed")
+// 	}
+// 	result = HasExtFzp("data.notafzp")
+// 	if result {
+// 		t.Error("IsFileFzp failed")
+// 	}
+// }
+//
+// func Test_HasExtJSON(t *testing.T) {
+// 	result := HasExtJSON("data.json")
+// 	if !result {
+// 		t.Error("HasExtJSON failed")
+// 	}
+// 	result = HasExtJSON("data.notajson")
+// 	if result {
+// 		t.Error("IsFileJSON failed")
+// 	}
+// }
+//
+// func Test_HasExtYAML(t *testing.T) {
+// 	result := HasExtYAML("data.yml")
+// 	if !result {
+// 		t.Error("HasExtYAML failed")
+// 	}
+// 	result = HasExtYAML("data.notayml")
+// 	if result {
+// 		t.Error("IsFileYAML failed")
+// 	}
+// }
 
 func Test_ReadFzp_Ok(t *testing.T) {
 	f, _, err := ReadFzp("../../docs/template.fzp")

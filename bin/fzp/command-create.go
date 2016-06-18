@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"time"
@@ -11,11 +10,6 @@ import (
 )
 
 var commandCreateFlags = []cli.Flag{
-	cli.StringFlag{
-		Name:  "f",
-		Usage: "fzp data format (default is xml)",
-		Value: "xml",
-	},
 	cli.StringFlag{
 		Name:  "title, t",
 		Usage: "fzp title",
@@ -41,18 +35,21 @@ var commandCreateFlags = []cli.Flag{
 	},
 	cli.StringFlag{
 		Name:  "url, u",
-		Usage: "", //TODO: ...
+		Usage: "parts url",
 	},
 	cli.StringFlag{
 		Name:  "label, l",
-		Usage: "", //TODO: ...
+		Usage: "set a label for the part",
+	},
+	cli.StringFlag{
+		Name:  "tags, T",
+		Usage: "a list of part tags",
 	},
 	// TODO: add all flags to setup the fzp data
 }
 
 func commandCreateAction(c *cli.Context) error {
 	// get the flag data
-	flagFormat := c.String("f")
 	flagTitle := c.String("title")
 	flagVersion := c.String("version")
 	flagDesc := c.String("desc")
@@ -67,6 +64,8 @@ func commandCreateAction(c *cli.Context) error {
 	// flagTags := c.String("tags")
 	// flagProperties := c.String("properties")
 	// flagViews := c.String("views")
+	// flagConnectors := c.String("connectors")
+	// flagBusses := c.String("busses")
 
 	// create a new fzp object
 	tmpFzp := fzp.Fzp{}
@@ -85,22 +84,31 @@ func commandCreateAction(c *cli.Context) error {
 	//fmt.Println("fzp", tmpFzp)
 	// tmpFzp.PrettyPrint()
 
-	// format data
-	tmpFzpEncoded, err := tmpFzp.Marshal(flagFormat)
-
 	// output
 	tmpArgs := c.Args()
 	tmpArgsLen := len(tmpArgs)
 	// fmt.Println("args", tmpArgs)
-	if tmpArgsLen > 0 {
-		err = ioutil.WriteFile(tmpArgs[0], tmpFzpEncoded, 0755)
-		if err != nil {
-			fmt.Println("WriteError:", err)
-			os.Exit(129)
-		}
 
-	} else {
-		fmt.Println(string(tmpFzpEncoded))
+	format := fzp.FormatFzp
+	isFile := false
+	if tmpArgsLen > 0 {
+		format, isFile = fzp.GetFormat(tmpArgs[0])
+	}
+
+	// format data
+	tmpFzpEncoded, err := tmpFzp.Marshal(format)
+	if err != nil {
+		cli.NewExitError("Encode Error: "+err.Error(), 127)
+	}
+
+	if !isFile {
+		os.Stdout.Write(tmpFzpEncoded)
+		return nil
+	}
+
+	err = ioutil.WriteFile(tmpArgs[0], tmpFzpEncoded, 0755)
+	if err != nil {
+		cli.NewExitError("WriteError: "+err.Error(), 127)
 	}
 
 	return nil
