@@ -1,13 +1,6 @@
-# github.com/fritzing/fzp/Makefile
+# github.com/fritzing/fzp/src/go/Makefile
 
-all: test build
-	./bin/fzp/fzp --help
+all: test
 
 test:
 	@go test -v -cover ./...
-
-build:
-	@cd bin/fzp && go build
-
-clean:
-	@go clean ./...
