@@ -36,22 +36,21 @@ func commandEncodeAction(c *cli.Context) error {
 		os.Exit(1)
 	}
 
-	dataHandler(flagInput, func() {
-
+	encodeDirHandler := func() {
 		if err := encodeDir(flagInput, flagOutput); err != nil {
 			fmt.Println("Error", err)
 			os.Exit(127)
 		}
+	}
 
-	}, func() {
-
+	encodeFileHandler := func() {
 		if err := encodeFile(flagInput, flagOutput); err != nil {
 			fmt.Println("Error", err)
 			os.Exit(127)
 		}
+	}
 
-	})
-
+	dataHandler(flagInput, encodeDirHandler, encodeFileHandler)
 	return nil
 }
 

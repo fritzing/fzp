@@ -26,13 +26,14 @@ type Fzp struct {
 	//Taxonomy        string      `xml:"taxonomy"`
 	//Family          string      `xml:"family"`
 	//Variant         string      `xml:"variant"`
-	Tags       []string    `xml:"tags>tag"               json:"tags"`
-	Properties []Property  `xml:"properties>property"    json:"version"`
-	Views      Views       `xml:"views"                  json:"views"`
-	Connectors []Connector `xml:"connectors>connector"   json:"connectors"`
-	Buses      []Bus       `xml:"buses>bus"              json:"busses"`
+	Tags       Tags       `xml:"tags>tag"               json:"tags"`
+	Properties Properties `xml:"properties>property"    json:"version"`
+	Views      Views      `xml:"views"                  json:"views"`
+	Connectors Connectors `xml:"connectors>connector"   json:"connectors"`
+	Buses      Buses      `xml:"buses>bus"              json:"busses"`
 }
 
+// The Format type we unse for enumerate
 type Format int
 
 const (

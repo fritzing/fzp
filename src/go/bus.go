@@ -2,6 +2,7 @@ package fzp
 
 import (
 	"errors"
+	"strings"
 )
 
 // Bus represet a fzp bus data object
@@ -14,18 +15,17 @@ type Bus struct {
 func NewBus(id string) Bus {
 	b := Bus{}
 	b.ID = id
+	b.NodeMember = make([]BusNode, 0)
 	return b
 }
 
 // Check validate the Bus data
 func (b *Bus) Check() error {
 	errMsg := ""
-	err := b.CheckID()
-	if err != nil {
+	if err := b.CheckID(); err != nil {
 		errMsg = err.Error()
 	}
-	err = b.CheckNodeMembers()
-	if err != nil {
+	if err := b.CheckNodeMembers(); err != nil {
 		errMsg += ", " + err.Error()
 		return errors.New(errMsg)
 	}
@@ -35,7 +35,7 @@ func (b *Bus) Check() error {
 // CheckID validate the Bus ID data
 func (b *Bus) CheckID() error {
 	if b.ID == "" {
-		return errors.New("Bus id undefined")
+		return errors.New("bus id undefined")
 	}
 	return nil
 }
@@ -45,11 +45,15 @@ func (b *Bus) CheckNodeMembers() error {
 	if len(b.NodeMember) == 0 {
 		return errors.New("bus nodemembers undefined")
 	}
+	var errConcat []string
 	for _, n := range b.NodeMember {
 		err := n.Check()
 		if err != nil {
-			return err
+			errConcat = append(errConcat, err.Error())
 		}
+	}
+	if len(errConcat) != 0 {
+		return errors.New(strings.Join(errConcat, "\n"))
 	}
 	return nil
 }

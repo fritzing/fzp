@@ -15,6 +15,9 @@ type Connector struct {
 func NewConnector(id string) Connector {
 	con := Connector{}
 	con.ID = id
+	con.BreadboardView = make([]ConnectorLayer, 0)
+	con.PcbView = make([]ConnectorLayer, 0)
+	con.SchematicView = make([]ConnectorLayer, 0)
 	return con
 }
 

@@ -5,5 +5,9 @@ import (
 )
 
 func Test_NewViews(t *testing.T) {
-	_ = NewViews()
+	testViews := NewViews()
+	err := testViews.Check()
+	if err != nil {
+		t.Error(err)
+	}
 }

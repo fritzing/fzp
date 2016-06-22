@@ -12,16 +12,6 @@ import (
 )
 
 var commandValidateFlags = []cli.Flag{
-	// // data input
-	// cli.StringFlag{
-	// 	Name:  "file, f",
-	// 	Usage: "the fzp filepath",
-	// },
-	// cli.StringFlag{
-	// 	Name:  "dir, d",
-	// 	Usage: "the fzp files directory",
-	// },
-
 	// data check settings
 	cli.BoolFlag{
 		Name:  "no-check-fritzingversion, nf",

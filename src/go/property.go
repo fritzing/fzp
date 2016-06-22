@@ -19,12 +19,10 @@ func NewProperty(n, v string) Property {
 // Check validate the Property data
 func (p *Property) Check() error {
 	errMsg := ""
-	err := p.CheckName()
-	if err != nil {
+	if err := p.CheckName(); err != nil {
 		errMsg = err.Error()
 	}
-	err = p.CheckValue()
-	if err != nil {
+	if err := p.CheckValue(); err != nil {
 		errMsg += ", " + err.Error()
 		return errors.New(errMsg)
 	}
@@ -34,7 +32,7 @@ func (p *Property) Check() error {
 // CheckName validate the Property Name data
 func (p *Property) CheckName() error {
 	if p.Name == "" {
-		return errors.New("property name Undefined")
+		return errors.New("property name undefined")
 	}
 	return nil
 }
