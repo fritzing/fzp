@@ -16,5 +16,5 @@ install:
   - go get ./...
 
 script:
-  - cd bin/fzp && make test
-  - cd src/go && make test
+  - cd ${TRAVIS_BUILD_DIR}/bin/fzp && make test
+  - cd ${TRAVIS_BUILD_DIR}/src/go && make test
