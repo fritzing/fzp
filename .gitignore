@@ -1,1 +1,2 @@
-fzp
+*.DS_Store
+bin/fzp/fzp
