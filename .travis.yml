@@ -3,13 +3,18 @@ language: go
 go:
   - 1.3
   - 1.4
+  - 1.5
   - tip
 
+# workarround to successful build a forked go package
 before_install:
-  - go get github.com/axw/gocov/gocov
-  - go get github.com/mattn/goveralls
+  - mkdir -p $HOME/gopath/src/github.com/fritzing
+  - ln -s -T ${TRAVIS_BUILD_DIR} $HOME/gopath/src/github.com/fritzing/fzp
+  - export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/fritzing/fzp
 
-script:
-  - go build && ./fzp --help
-  - go test -v -covermode="count" -coverprofile="go_fzp.cover" github.com/paulvollmer/fzp/go
-  - $HOME/gopath/bin/goveralls -service=travis-ci -coverprofile="go_fzp.cover"
+install:
+  - go get ./...
+
+  script:
+    - cd bin/fzp && make test
+    - cd src/go && make test

@@ -4,19 +4,30 @@ import (
 	"testing"
 )
 
-func Test_IsFileFzp(t *testing.T) {
-	result := IsFileFzp("data.fzp")
-	if !result {
-		t.Error("IsFileFzp broken")
+func Test_GetFormat(t *testing.T) {
+	format, _ := GetFormat("FZP")
+	if format != FormatFzp {
+		t.Error("not equal")
 	}
-	result = IsFileFzp("data.notafzp")
-	if result {
-		t.Error("IsFileFzp broken")
+
+	format, _ = GetFormat("data.fzp")
+	if format != FormatFzp {
+		t.Error("not equal")
+	}
+
+	format, _ = GetFormat("data.json")
+	if format != FormatJSON {
+		t.Error("not equal")
+	}
+
+	format, _ = GetFormat("data.yaml")
+	if format != FormatYAML {
+		t.Error("not equal")
 	}
 }
 
 func Test_ReadFzp_Ok(t *testing.T) {
-	f, err := ReadFzp("../sample.fzp")
+	f, _, err := ReadFzp("../../docs/template.fzp")
 	if err != nil {
 		t.Error("Fzp.ReadFzp broken")
 	}
@@ -28,7 +39,7 @@ func Test_ReadFzp_Ok(t *testing.T) {
 }
 
 func Test_ReadFzp_Failed(t *testing.T) {
-	_, err := ReadFzp("../not.found")
+	_, _, err := ReadFzp("../not.found")
 	if err == nil {
 		t.Error("Fzp.ReadFzp (that doesn't exists) broken")
 	}
