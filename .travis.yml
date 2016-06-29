@@ -7,14 +7,14 @@ go:
   - tip
 
 # workarround to successful build a forked go package
-before_install:
-  - mkdir -p $HOME/gopath/src/github.com/fritzing
-  - ln -s -T ${TRAVIS_BUILD_DIR} $HOME/gopath/src/github.com/fritzing/fzp
-  - export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/fritzing/fzp
+#before_install:
+#  - mkdir -p $HOME/gopath/src/github.com/fritzing
+#  - ln -s -T ${TRAVIS_BUILD_DIR} $HOME/gopath/src/github.com/fritzing/fzp
+#  - export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/fritzing/fzp
 
 install:
   - go get ./...
 
-  script:
-    - cd bin/fzp && make test
-    - cd src/go && make test
+script:
+  - cd ${TRAVIS_BUILD_DIR}/bin/fzp && make test
+  - cd ${TRAVIS_BUILD_DIR}/src/go && make test
