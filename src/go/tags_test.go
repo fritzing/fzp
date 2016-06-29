@@ -22,6 +22,7 @@ func Test_Tags(t *testing.T) {
 	}
 }
 
+// TODO: test table
 func Test_Tags_Check(t *testing.T) {
 	tags := Tags{}
 	tags = []string{"hello", "world", "foo", "hello"}

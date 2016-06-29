@@ -38,6 +38,7 @@ func (t *Tags) Add(tag string) error {
 
 func (t *Tags) Check() error {
 	for _, v := range *t {
+		// TODO: check if upper / lowercase version exist
 		total := sort.SearchStrings(*t, v)
 		// fmt.Println("total:", total)
 		if total != 0 {
