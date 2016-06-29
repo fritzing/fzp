@@ -15,6 +15,6 @@ go:
 install:
   - go get ./...
 
-  script:
-    - cd bin/fzp && make test
-    - cd src/go && make test
+script:
+  - cd bin/fzp && make test
+  - cd src/go && make test
