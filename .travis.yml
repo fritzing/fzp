@@ -6,7 +6,7 @@ go:
   - 1.5
   - tip
 
-# workarround to successful build a forked go package
+# workarround to successful build a forked version of the fzp repository
 #before_install:
 #  - mkdir -p $HOME/gopath/src/github.com/fritzing
 #  - ln -s -T ${TRAVIS_BUILD_DIR} $HOME/gopath/src/github.com/fritzing/fzp
@@ -16,5 +16,5 @@ install:
   - go get ./...
 
 script:
-  - cd ${TRAVIS_BUILD_DIR}/bin/fzp && make test
   - cd ${TRAVIS_BUILD_DIR}/src/go && make test
+  - cd ${TRAVIS_BUILD_DIR}/bin/fzp && make test

@@ -6,7 +6,7 @@ import (
 
 func Test_Properties(t *testing.T) {
 	props := NewProperties()
-	if len(*props) != 0 {
+	if props.Total() != 0 {
 		t.Error("NewProperties returned object not equal")
 	}
 	err := props.AddValue("foo", "F")

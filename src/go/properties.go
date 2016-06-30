@@ -21,6 +21,7 @@ func (p *Properties) AddValue(name, val string) error {
 	if err != nil {
 		newProp := NewProperty(name, val)
 		*p = append(*p, newProp)
+		return nil
 	}
 	return errors.New("exist...")
 }

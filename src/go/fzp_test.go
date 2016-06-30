@@ -26,15 +26,43 @@ func Test_GetFormat(t *testing.T) {
 	}
 }
 
-func Test_ReadFzp_Ok(t *testing.T) {
-	f, _, err := ReadFzp("../../docs/template.fzp")
-	if err != nil {
-		t.Error("Fzp.ReadFzp broken")
-	}
+var TestTable_Read = []struct {
+	src        string
+	readError  bool
+	checkError bool
+}{
+	{"../fixture/empty.fzp", true, true},
+	{"../fixture/empty_xml.fzp", true, true},
+	{"../fixture/empty_fzp_0.fzp", false, true},
+	{"../fixture/empty_fzp_1.fzp", false, true},
+	{"../fixture/empty_fzp_2.fzp", false, true},
 
-	errCheck := f.Check()
-	if errCheck != nil {
-		t.Error("Fzp.Check broken:", errCheck)
+	// passed
+	{"../fixture/pass/pass_0.fzp", false, false},
+
+	// failed
+	{"../fixture/fail/fail_0_all.fzp", false, true},
+	{"../fixture/fail/fail_1_title.fzp", false, true},
+}
+
+func Test_ReadFzp_Ok(t *testing.T) {
+	totalTests := len(TestTable_Read)
+	for k, v := range TestTable_Read {
+		t.Logf("Run Test %v of %v - %q\n", k, totalTests, v.src)
+		f, _, errFile := ReadFzp(v.src)
+
+		if v.readError {
+			if errFile == nil {
+				t.Error("Fzp.ReadFzp missing error", errFile)
+			}
+		}
+
+		errCheck := f.Check()
+		if v.checkError {
+			if errCheck == nil {
+				t.Error("Fzp.Check missing error:", errCheck)
+			}
+		}
 	}
 }
 
