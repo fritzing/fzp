@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module fritzingVersion="" moduleId="" referenceFile="">
+  <version></version>
+  <title></title>
+  <description></description>
+  <author></author>
+  <date></date>
+  <url></url>
+  <label></label>
+  <tags>
+    <tag></tag>
+  </tags>
+  <properties>
+    <property name=""></property>
+  </properties>
+  <views>
+    <iconView>
+      <layers image=""></layers>
+    </iconView>
+    <breadboardView>
+      <layers image=""></layers>
+    </breadboardView>
+    <pcbView>
+      <layers image=""></layers>
+    </pcbView>
+    <schematicView>
+      <layers image=""></layers>
+    </schematicView>
+  </views>
+  <connectors>
+    <connector id="" name="" type="">
+      <description></description>
+      <views></views>
+    </connector>
+  </connectors>
+  <buses></buses>
+</module>

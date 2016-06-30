@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module fritzingVersion="" moduleId="" referenceFile="">
+  <version></version>
+  <title></title>
+  <description></description>
+  <author></author>
+  <date></date>
+  <url></url>
+  <label></label>
+  <tags>
+    <tag></tag>
+  </tags>
+  <properties>
+    <property name=""></property>
+  </properties>
+  <views>
+    <iconView></iconView>
+    <breadboardView></breadboardView>
+    <pcbView></pcbView>
+    <schematicView></schematicView>
+  </views>
+  <connectors>
+    <connector id="" name="" type=""></connector>
+  </connectors>
+  <buses></buses>
+</module>
