@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strconv"
 
 	"github.com/fritzing/fzp/src/go"
@@ -116,8 +117,9 @@ func commandValidateAction(c *cli.Context) error {
 		}
 		os.Exit(0)
 	} else if fzpDir != "" {
-		// Logf("read folder '%v'\n", fzpDir)
-		if err := validateFolder(c, fzpDir); err != nil {
+		//Logf("read folder '%v'\n", fzpDir)
+		var err []error
+		if err = validateFolder(c, fzpDir); err != nil {
 			os.Exit(1)
 		}
 		os.Exit(0)
@@ -139,16 +141,21 @@ func commandValidateAction(c *cli.Context) error {
 }
 
 func validateFile(c *cli.Context, src string) error {
-	fzpData, _, err := fzp.ReadFzp(src)
-	if err != nil {
-		fmt.Printf("validator failed @ %v\n", err)
-		os.Exit(1)
-	}
-	// Logf("fzp file '%v' successful read\n", src, fzpData)
+	tmpFilename := filepath.Base(src)
+	if filepath.Ext(tmpFilename) == ".fzp" {
+		// fmt.Println("call validateFile", src)
+		fzpData, _, err := fzp.ReadFzp(src)
+		if err != nil {
+			fmt.Printf("validator failed @ %v\n", err)
+			os.Exit(1)
+		}
+		// Logf("fzp file '%v' successful read\n", src, fzpData)
 
-	errCounter := checkData(c, fzpData)
-	if errCounter != 0 {
-		return errors.New(strconv.Itoa(errCounter) + " Errors @ " + src)
+		errCounter := checkData(c, fzpData)
+		if errCounter != 0 {
+			return errors.New(strconv.Itoa(errCounter) + " Errors @ " + src)
+		}
+
 	}
 
 	// Logf("fzp valid\n")
@@ -217,19 +224,19 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 		}
 	}*/
 
-	if !c.Bool("no-check-description") {
-		if err := fzpData.CheckDescription(); err != nil {
-			fmt.Println("=>", err)
-			checkErrorCounter++
-		}
-	}
+	// if !c.Bool("no-check-description") {
+	// 	if err := fzpData.CheckDescription(); err != nil {
+	// 		fmt.Println("=>", err)
+	// 		checkErrorCounter++
+	// 	}
+	// }
 
-	if !c.Bool("no-check-author") {
-		if err := fzpData.CheckAuthor(); err != nil {
-			fmt.Println("=>", err)
-			checkErrorCounter++
-		}
-	}
+	// if !c.Bool("no-check-author") {
+	// 	if err := fzpData.CheckAuthor(); err != nil {
+	// 		fmt.Println("=>", err)
+	// 		checkErrorCounter++
+	// 	}
+	// }
 
 	// Check Date ?
 	// Check URL ?
@@ -252,12 +259,12 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 		}
 	}
 
-	if !c.Bool("no-check-buses") {
-		if err := fzpData.CheckBuses(); err != nil {
-			fmt.Println("=>", err)
-			checkErrorCounter++
-		}
-	}
+	// if !c.Bool("no-check-buses") {
+	// 	if err := fzpData.CheckBuses(); err != nil {
+	// 		fmt.Println("=>", err)
+	// 		checkErrorCounter++
+	// 	}
+	// }
 
 	return checkErrorCounter
 }
