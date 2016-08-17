@@ -12,25 +12,26 @@ import (
 
 // Fzp represet a fzp data object
 type Fzp struct {
-	XMLName         xml.Name `xml:"module"                json:"-"                 yaml:"-"`
-	FritzingVersion string   `xml:"fritzingVersion,attr"  json:"fritzingversion"   yaml:"fritzingversion"`
-	ModuleID        string   `xml:"moduleId,attr"         json:"moduleid"          yaml:"moduleid"`
-	ReferenceFile   string   `xml:"referenceFile,attr"    json:"referencefileurl"  yaml:"referencefile"`
-	Version         string   `xml:"version"               json:"version"           json:"version"`
-	Title           string   `xml:"title"                 json:"title"             json:"title"`
-	Description     string   `xml:"description"           json:"description"       json:"description"`
-	Author          string   `xml:"author"                json:"author"            json:"author"`
-	Date            string   `xml:"date"                  json:"date"              json:"date"`
-	URL             string   `xml:"url"                   json:"url"               json:"url"`
-	Label           string   `xml:"label"                 json:"label"             json:"label"`
-	//Taxonomy        string      `xml:"taxonomy"`
-	//Family          string      `xml:"family"`
-	//Variant         string      `xml:"variant"`
+	//important xml tags:
+	XMLName  xml.Name `xml:"module"                json:"-"                 yaml:"-"`
+	ModuleID string   `xml:"moduleId,attr"         json:"moduleid"          yaml:"moduleid"`
+	Title    string   `xml:"title"                 json:"title"             yaml:"title"`
+	//important property arrays
 	Tags       Tags       `xml:"tags>tag"               json:"tags"`
 	Properties Properties `xml:"properties>property"    json:"version"`
-	Views      Views      `xml:"views"                  json:"views"`
+	Views      Views      `xml:"views"             json:"views"`
 	Connectors Connectors `xml:"connectors>connector"   json:"connectors"`
 	Buses      Buses      `xml:"buses>bus"              json:"busses"`
+
+	//nice to have tags:
+	FritzingVersion string `xml:"fritzingVersion,attr"  json:"fritzingversion"   yaml:"fritzingversion"`
+	ReferenceFile   string `xml:"referenceFile,attr"    json:"referencefileurl"  yaml:"referencefile"`
+	Version         string `xml:"version"               json:"version"           yaml:"version"`
+	Description     string `xml:"description"           json:"description"       yaml:"description"`
+	Author          string `xml:"author"                json:"author"            yaml:"author"`
+	Date            string `xml:"date"                  json:"date"              yaml:"date"`
+	URL             string `xml:"url"                   json:"url"               yaml:"url"`
+	Label           string `xml:"label"                 json:"label"             yaml:"label"`
 }
 
 // The Format type we unse for enumerate
