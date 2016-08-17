@@ -2,6 +2,7 @@ package fzp
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 )
 
@@ -24,9 +25,11 @@ func (f *Fzp) CheckModuleID() error {
 // TODO: is the referenceFile required?
 
 // CheckVersion validate the Version data
+// Version is not a part critical property.
 func (f *Fzp) CheckVersion() error {
 	if f.Version == "" {
-		return errors.New("version undefined")
+		fmt.Println("==> WARN version undefined")
+		return nil
 	}
 	return nil
 }
@@ -39,18 +42,22 @@ func (f *Fzp) CheckTitle() error {
 	return nil
 }
 
-// CheckDescription validate the Description data
+// CheckDescription validate the Description data.
+// Description is not a part critical property.
 func (f *Fzp) CheckDescription() error {
 	if f.Description == "" {
-		return errors.New("description undefined")
+		fmt.Println("==> WARN description undefined")
+		return nil
 	}
 	return nil
 }
 
-// CheckAuthor validate the Author data
+// CheckAuthor validate the Author data.
+// Author is not a part critical property.
 func (f *Fzp) CheckAuthor() error {
 	if f.Author == "" {
-		return errors.New("author undefined")
+		fmt.Println("==> WARN author undefined")
+		return nil
 	}
 	return nil
 }
@@ -63,6 +70,7 @@ func (f *Fzp) CheckAuthor() error {
 // Check Variant ?
 
 // CheckTags validate the Tags data
+// if no tag exist, the part cannot be found by the fritzing app.
 func (f *Fzp) CheckTags() (error, int) {
 	countBrokenTags := 0
 
@@ -83,17 +91,19 @@ func (f *Fzp) CheckTags() (error, int) {
 
 // CheckProperties validate the Properties data
 func (f *Fzp) CheckProperties() error {
-	if len(f.Properties) != 0 {
-		for _, property := range f.Properties {
-			if err := property.CheckName(); err != nil {
-				return err
-			}
-			if err := property.CheckValue(); err != nil {
-				return err
-			}
-		}
-	}
-	return nil
+	return f.Properties.Check()
+
+	// if len(f.Properties) == 0 {
+	// 	return errors.New("Missing property family!")
+	// }
+	//
+	// for _, property := range f.Properties {
+	// 	if err := property.Check(); err != nil {
+	// 		return err
+	// 	}
+	// }
+	//
+	// return nil
 }
 
 // CheckViews validate the Views data
