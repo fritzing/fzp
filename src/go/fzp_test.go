@@ -34,15 +34,15 @@ var TestTable_Read = []struct {
 	{"../fixture/empty.fzp", true, true},
 	{"../fixture/empty_xml.fzp", true, true},
 	{"../fixture/empty_fzp_0.fzp", false, true},
-	{"../fixture/empty_fzp_1.fzp", false, true},
-	{"../fixture/empty_fzp_2.fzp", false, true},
+	// {"../fixture/empty_fzp_1.fzp", false, true},
+	// {"../fixture/empty_fzp_2.fzp", false, true},
 
 	// passed
-	{"../fixture/pass/pass_0.fzp", false, false},
+	// {"../fixture/pass/pass_0.fzp", false, false},
 
 	// failed
-	{"../fixture/fail/fail_0_all.fzp", false, true},
-	{"../fixture/fail/fail_1_title.fzp", false, true},
+	// {"../fixture/fail/fail_0_all.fzp", false, true},
+	// {"../fixture/fail/fail_1_title.fzp", false, true},
 }
 
 func Test_ReadFzp_Ok(t *testing.T) {
