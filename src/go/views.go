@@ -2,6 +2,7 @@ package fzp
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -17,6 +18,10 @@ type Views struct {
 func NewViews() Views {
 	v := Views{}
 	v.Icon = NewViewLayers()
+
+	fmt.Println("create copper0---------------------")
+	// v.Layer = append(v.Layer, NewViewLayer("copper0"))
+
 	v.Breadboard = NewViewLayers()
 	v.Pcb = NewViewLayers()
 	v.Schematic = NewViewLayers()

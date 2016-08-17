@@ -6,10 +6,11 @@ import (
 
 type Properties []Property
 
-func NewProperties() *Properties {
+func NewProperties(fname string) Properties {
 	p := Properties{}
 	p = make([]Property, 0)
-	return &p
+	p = append(p, NewProperty("family", fname))
+	return p
 }
 
 func (p *Properties) Total() int {

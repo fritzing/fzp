@@ -8,10 +8,10 @@ import (
 
 type Tags []string
 
-func NewTags() *Tags {
+func NewTags() Tags {
 	t := Tags{}
 	t = make([]string, 0)
-	return &t
+	return t
 }
 
 func (t *Tags) Total() int {
