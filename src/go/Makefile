@@ -1,6 +1,6 @@
 # github.com/fritzing/fzp/src/go/Makefile
 
-all: test
+all: test lint
 
 test:
 	@go test -v -cover ./...
