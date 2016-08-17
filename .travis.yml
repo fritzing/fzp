@@ -12,7 +12,7 @@ go:
 #  - export TRAVIS_BUILD_DIR=$HOME/gopath/src/github.com/fritzing/fzp
 
 install:
-  - go install github.com/paulvollmer/commenttags/cmd/commenttags
+  - go get github.com/paulvollmer/commenttags/cmd/commenttags
   - go get ./...
 
 script:
