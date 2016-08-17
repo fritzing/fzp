@@ -10,7 +10,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "fzp"
 	app.Usage = "fzp tool (validator, encoder, formatter)"
-	app.Version = "0.2.4"
+	app.Version = "0.2.5"
 	app.Email = "https://github.com/fritzing/fzp"
 	app.Commands = []cli.Command{
 		{
