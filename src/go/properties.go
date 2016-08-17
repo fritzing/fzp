@@ -44,6 +44,7 @@ func (p *Properties) Exist(name string) error {
 func (p *Properties) Check() error {
 	// check if each property name only exist once a time
 	var tmp map[string]bool
+	tmp = make(map[string]bool, 0)
 	for _, prop := range *p {
 		//TODO: check if a property with name="family" exists and is not empty
 		if !tmp[prop.Name] {

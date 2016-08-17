@@ -91,7 +91,7 @@ func (f *Fzp) CheckTags() (error, int) {
 
 // CheckProperties validate the Properties data
 func (f *Fzp) CheckProperties() error {
-	return f.Properties.Check()
+	err := f.Properties.Check()
 
 	// if len(f.Properties) == 0 {
 	// 	return errors.New("Missing property family!")
@@ -103,7 +103,7 @@ func (f *Fzp) CheckProperties() error {
 	// 	}
 	// }
 	//
-	// return nil
+	return err
 }
 
 // CheckViews validate the Views data
