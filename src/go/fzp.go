@@ -12,7 +12,8 @@ import (
 
 // Fzp represet a fzp data object
 type Fzp struct {
-	//important xml tags:
+	FileName string `xml:"-" json:""`
+	// //important xml tags:
 	XMLName  xml.Name `xml:"module"                json:"-"                 yaml:"-"`
 	ModuleID string   `xml:"moduleId,attr"         json:"moduleid"          yaml:"moduleid"`
 	Title    string   `xml:"title"                 json:"title"             yaml:"title"`
@@ -34,13 +35,13 @@ type Fzp struct {
 	Label           string `xml:"label"                 json:"label"             yaml:"label"`
 }
 
-func NewFzp(moduleId, title, fname string /*tags Tags, properties Properties, views Views, connectors Connector*/) Fzp {
+func NewFzp(filename, moduleId, title, familyname string /*tags Tags, properties Properties, views Views, connectors Connector*/) Fzp {
 	f := Fzp{}
-
+	f.FileName = filename
 	f.ModuleID = moduleId
 	f.Title = title
 	f.Tags = NewTags()
-	f.Properties = NewProperties(fname)
+	f.Properties = NewProperties(familyname)
 	f.Views = NewViews()
 	f.Connectors = NewConnectors()
 	return f
@@ -104,6 +105,7 @@ func GetFormat(src string) (Format, bool) {
 // ReadFzp and decode xml data
 func ReadFzp(src string) (Fzp, []byte, error) {
 	fzpData := Fzp{}
+	fzpData.FileName = src
 	// read
 	fzpBytes, err := ioutil.ReadFile(src)
 	if err != nil {

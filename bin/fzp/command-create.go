@@ -73,7 +73,7 @@ func commandCreateAction(c *cli.Context) error {
 	// flagBusses := c.String("busses")
 
 	// create a new fzp object
-	tmpFzp := fzp.NewFzp("unknown", flagTitle, flagFamily)
+	tmpFzp := fzp.NewFzp("filename.fzp", "unknown", flagTitle, flagFamily)
 	// tmpFzp.FritzingVersion =
 	// tmpFzp.ModuleId =
 	// tmpFzp.ReferenceFile =

@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"strconv"
 
 	"github.com/fritzing/fzp/src/go"
 	"github.com/urfave/cli"
@@ -151,10 +150,13 @@ func validateFile(c *cli.Context, src string) error {
 		}
 		// Logf("fzp file '%v' successful read\n", src, fzpData)
 
-		errCounter := checkData(c, fzpData)
-		if errCounter != 0 {
-			return errors.New(strconv.Itoa(errCounter) + " Errors @ " + src)
+		errCounter /*, warnings*/ := fzpData.Check() //checkData(c, fzpData)
+		if len(errCounter) != 0 {
+			return errors.New(" Errors @ " + src)
 		}
+		// if len(warnings) != 0 {
+		// 	fmt.Println(" Warnings @ " + warnings)
+		// }
 
 	}
 
@@ -184,8 +186,9 @@ func validateFolder(c *cli.Context, src string) []error {
 	return errList
 }
 
-func checkData(c *cli.Context, fzpData fzp.Fzp) int {
+func checkData(c *cli.Context, fzpData fzp.Fzp) (int, string) {
 	checkErrorCounter := 0
+	collectedWarnings := ""
 
 	/*if !c.Bool("no-check-fritzingversion") {
 		if err := fzpData.CheckFritzingVersion(); err != nil {
@@ -217,19 +220,12 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 		}
 	}
 
-	/*if !c.Bool("no-check-family") {
-		if err := fzpData.CheckFamily(); err != nil {
-			fmt.Println("=>", err)
+	if !c.Bool("no-check-description") {
+		if fzpData.CheckDescription() != "" {
+			fmt.Println("=>")
 			checkErrorCounter++
 		}
-	}*/
-
-	// if !c.Bool("no-check-description") {
-	// 	if err := fzpData.CheckDescription(); err != nil {
-	// 		fmt.Println("=>", err)
-	// 		checkErrorCounter++
-	// 	}
-	// }
+	}
 
 	// if !c.Bool("no-check-author") {
 	// 	if err := fzpData.CheckAuthor(); err != nil {
@@ -266,5 +262,5 @@ func checkData(c *cli.Context, fzpData fzp.Fzp) int {
 	// 	}
 	// }
 
-	return checkErrorCounter
+	return checkErrorCounter, collectedWarnings
 }

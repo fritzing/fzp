@@ -6,7 +6,45 @@ import (
 	"strconv"
 )
 
+// Check the whole Fzp data
+func (f *Fzp) Check() []error {
+	var errList []error
+
+	if err := f.CheckFritzingVersion(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckModuleID(); err != nil {
+		errList = append(errList, err)
+	}
+	tmp := f.CheckVersion()
+	if tmp != "" {
+		fmt.Println(tmp)
+	}
+	if err := f.CheckTitle(); err != nil {
+		errList = append(errList, err)
+	}
+	errTags, _ := f.CheckTags()
+	if errTags != nil {
+		errList = append(errList, errTags)
+	}
+	if err := f.CheckProperties(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckViews(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckConnectors(); err != nil {
+		errList = append(errList, err)
+	}
+	if err := f.CheckBuses(); err != nil {
+		errList = append(errList, err)
+	}
+
+	return errList
+}
+
 // CheckFritzingVersion validate the FritzingVersion data
+// type error
 func (f *Fzp) CheckFritzingVersion() error {
 	if f.FritzingVersion == "" {
 		return errors.New("fritzingVersion undefined")
@@ -15,6 +53,7 @@ func (f *Fzp) CheckFritzingVersion() error {
 }
 
 // CheckModuleID validate the ModuleID data
+// type error
 func (f *Fzp) CheckModuleID() error {
 	if f.ModuleID == "" {
 		return errors.New("moduleId undefined")
@@ -26,15 +65,16 @@ func (f *Fzp) CheckModuleID() error {
 
 // CheckVersion validate the Version data
 // Version is not a part critical property.
-func (f *Fzp) CheckVersion() error {
+// type warning
+func (f *Fzp) CheckVersion() string {
 	if f.Version == "" {
-		fmt.Println("==> WARN version undefined")
-		return nil
+		return "==> WARN version undefined"
 	}
-	return nil
+	return ""
 }
 
 // CheckTitle validate the Title data
+// type error
 func (f *Fzp) CheckTitle() error {
 	if f.Title == "" {
 		return errors.New("title undefined")
@@ -44,22 +84,24 @@ func (f *Fzp) CheckTitle() error {
 
 // CheckDescription validate the Description data.
 // Description is not a part critical property.
-func (f *Fzp) CheckDescription() error {
+// type warning
+func (f *Fzp) CheckDescription() string {
 	if f.Description == "" {
-		fmt.Println("==> WARN description undefined")
-		return nil
+		return "==> WARN description undefined" + f.Title
+
 	}
-	return nil
+	return ""
 }
 
 // CheckAuthor validate the Author data.
 // Author is not a part critical property.
-func (f *Fzp) CheckAuthor() error {
+// type warning
+func (f *Fzp) CheckAuthor() string {
 	if f.Author == "" {
-		fmt.Println("==> WARN author undefined")
-		return nil
+		return "==> WARN author undefined"
+
 	}
-	return nil
+	return ""
 }
 
 // Check Date ?
@@ -134,40 +176,4 @@ func (f *Fzp) CheckBuses() error {
 		}
 	}
 	return nil
-}
-
-// Check the whole Fzp data
-func (f *Fzp) Check() []error {
-	var errList []error
-
-	if err := f.CheckFritzingVersion(); err != nil {
-		errList = append(errList, err)
-	}
-	if err := f.CheckModuleID(); err != nil {
-		errList = append(errList, err)
-	}
-	if err := f.CheckVersion(); err != nil {
-		errList = append(errList, err)
-	}
-	if err := f.CheckTitle(); err != nil {
-		errList = append(errList, err)
-	}
-	errTags, _ := f.CheckTags()
-	if errTags != nil {
-		errList = append(errList, errTags)
-	}
-	if err := f.CheckProperties(); err != nil {
-		errList = append(errList, err)
-	}
-	if err := f.CheckViews(); err != nil {
-		errList = append(errList, err)
-	}
-	if err := f.CheckConnectors(); err != nil {
-		errList = append(errList, err)
-	}
-	if err := f.CheckBuses(); err != nil {
-		errList = append(errList, err)
-	}
-
-	return errList
 }
