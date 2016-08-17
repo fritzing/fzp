@@ -16,6 +16,10 @@ var commandCreateFlags = []cli.Flag{
 		Value: "untitled",
 	},
 	cli.StringFlag{
+		Name:  "family, f",
+		Usage: "set a familyname property for the part",
+	},
+	cli.StringFlag{
 		Name:  "version, v",
 		Usage: "fzp version",
 		Value: "0.1.0",
@@ -51,6 +55,7 @@ var commandCreateFlags = []cli.Flag{
 func commandCreateAction(c *cli.Context) error {
 	// get the flag data
 	flagTitle := c.String("title")
+	flagFamily := c.String("family")
 	flagVersion := c.String("version")
 	flagDesc := c.String("desc")
 	flagAuthor := c.String("author")
@@ -68,7 +73,7 @@ func commandCreateAction(c *cli.Context) error {
 	// flagBusses := c.String("busses")
 
 	// create a new fzp object
-	tmpFzp := fzp.Fzp{}
+	tmpFzp := fzp.NewFzp("unknown", flagTitle, flagFamily)
 	// tmpFzp.FritzingVersion =
 	// tmpFzp.ModuleId =
 	// tmpFzp.ReferenceFile =

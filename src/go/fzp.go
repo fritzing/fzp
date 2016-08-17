@@ -34,6 +34,18 @@ type Fzp struct {
 	Label           string `xml:"label"                 json:"label"             yaml:"label"`
 }
 
+func NewFzp(moduleId, title, fname string /*tags Tags, properties Properties, views Views, connectors Connector*/) Fzp {
+	f := Fzp{}
+
+	f.ModuleID = moduleId
+	f.Title = title
+	f.Tags = NewTags()
+	f.Properties = NewProperties(fname)
+	f.Views = NewViews()
+	f.Connectors = NewConnectors()
+	return f
+}
+
 // The Format type we unse for enumerate
 type Format int
 
