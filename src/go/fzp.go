@@ -12,19 +12,22 @@ import (
 
 // Fzp represet a fzp data object
 type Fzp struct {
-	FileName string `xml:"-" json:""`
-	// //important xml tags:
+	// data not includet at the final fzp file
+	FileName string `xml:"-" json:"-" yaml:"-"`
+
+	// required xml tags:
 	XMLName  xml.Name `xml:"module"                json:"-"                 yaml:"-"`
 	ModuleID string   `xml:"moduleId,attr"         json:"moduleid"          yaml:"moduleid"`
 	Title    string   `xml:"title"                 json:"title"             yaml:"title"`
-	//important property arrays
+
+	// important part data models
 	Tags       Tags       `xml:"tags>tag"               json:"tags"`
 	Properties Properties `xml:"properties>property"    json:"version"`
 	Views      Views      `xml:"views"             json:"views"`
 	Connectors Connectors `xml:"connectors>connector"   json:"connectors"`
 	Buses      Buses      `xml:"buses>bus"              json:"busses"`
 
-	//nice to have tags:
+	// nice to have xml tags:
 	FritzingVersion string `xml:"fritzingVersion,attr"  json:"fritzingversion"   yaml:"fritzingversion"`
 	ReferenceFile   string `xml:"referenceFile,attr"    json:"referencefileurl"  yaml:"referencefile"`
 	Version         string `xml:"version"               json:"version"           yaml:"version"`
@@ -35,10 +38,10 @@ type Fzp struct {
 	Label           string `xml:"label"                 json:"label"             yaml:"label"`
 }
 
-func NewFzp(filename, moduleId, title, familyname string /*tags Tags, properties Properties, views Views, connectors Connector*/) Fzp {
+func NewFzp(filename, moduleID, title, familyname string /*tags Tags, properties Properties, views Views, connectors Connector*/) Fzp {
 	f := Fzp{}
 	f.FileName = filename
-	f.ModuleID = moduleId
+	f.ModuleID = moduleID
 	f.Title = title
 	f.Tags = NewTags()
 	f.Properties = NewProperties(familyname)
@@ -74,6 +77,7 @@ func (f *Format) String() string {
 	return ""
 }
 
+// GetFormat return the format of a filename
 func GetFormat(src string) (Format, bool) {
 	// is it a filename with an extension?
 	tmp := filepath.Ext(src)

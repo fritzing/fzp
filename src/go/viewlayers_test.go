@@ -5,5 +5,10 @@ import (
 )
 
 func Test_NewViewLayers(t *testing.T) {
-	_ = NewViewLayers()
+	layers := NewViewLayers()
+	t.Log(layers)
+	// err := layers.Check()
+	// if err != nil {
+	// 	t.Error(err)
+	// }
 }

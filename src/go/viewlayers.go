@@ -1,6 +1,8 @@
 package fzp
 
-import "errors"
+import (
+	"errors"
+)
 
 // ViewLayers represet a fzp ViewLayers data object
 type ViewLayers struct {
