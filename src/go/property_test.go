@@ -6,8 +6,24 @@ import (
 
 func Test_NewProperty(t *testing.T) {
 	p := NewProperty("p1", "foo")
-	if p.Name != "t1" && p.Value != "foo" {
+	if p.Name != "p1" && p.Value != "foo" {
 		t.Error("Property data not equal")
+	}
+}
+
+func Test_Property_Check(t *testing.T) {
+	// empty
+	p1 := NewProperty("", "")
+	err1 := p1.Check()
+	if err1 == nil {
+		t.Error("Property.Check missing error")
+	}
+
+	// with data
+	p2 := NewProperty("foo", "bar")
+	err2 := p2.Check()
+	if err2 != nil {
+		t.Error(err2)
 	}
 }
 
@@ -38,13 +54,5 @@ func Test_Property_CheckValue(t *testing.T) {
 	err = p.CheckValue()
 	if err != nil {
 		t.Error("Property.CheckValue test failed - ERROR:", err)
-	}
-}
-
-func Test_Property_Check(t *testing.T) {
-	p := NewProperty("foo", "bar")
-	err := p.Check()
-	if err != nil {
-		t.Error(err)
 	}
 }

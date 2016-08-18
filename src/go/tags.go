@@ -6,18 +6,22 @@ import (
 	"sort"
 )
 
+// Tags array
 type Tags []string
 
+// NewTags return a new Tags object
 func NewTags() Tags {
 	t := Tags{}
 	t = make([]string, 0)
 	return t
 }
 
+// Total return the total number of tags
 func (t *Tags) Total() int {
 	return len(*t)
 }
 
+// Exist return true if a tag with the given value exist
 func (t *Tags) Exist(tag string) int {
 	count := 0
 	for _, v := range *t {
@@ -28,6 +32,7 @@ func (t *Tags) Exist(tag string) int {
 	return count
 }
 
+// Add a tag to the array
 func (t *Tags) Add(tag string) error {
 	if t.Exist(tag) != 0 {
 		return errors.New("tag name '" + tag + "' already exist")
@@ -36,6 +41,7 @@ func (t *Tags) Add(tag string) error {
 	return nil
 }
 
+// Check the Tags
 func (t *Tags) Check() error {
 	for _, v := range *t {
 		// TODO: check if upper / lowercase version exist

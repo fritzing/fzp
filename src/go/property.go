@@ -1,6 +1,8 @@
 package fzp
 
-import "errors"
+import (
+	"errors"
+)
 
 // Property represet a fzp Property data object
 type Property struct {

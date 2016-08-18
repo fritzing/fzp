@@ -4,19 +4,24 @@ import (
 	"errors"
 )
 
+// Properties array
 type Properties []Property
 
-func NewProperties(fname string) Properties {
+// NewProperties return a new Properties object
+func NewProperties(famname string) Properties {
 	p := Properties{}
 	p = make([]Property, 0)
-	p = append(p, NewProperty("family", fname))
+	// the 'family' property is required by the fritzing app
+	p = append(p, NewProperty("family", famname))
 	return p
 }
 
+// Total return the total number of properties
 func (p *Properties) Total() int {
 	return len(*p)
 }
 
+// AddValue a new property
 func (p *Properties) AddValue(name, val string) error {
 	_, err := p.GetValue(name)
 	if err != nil {
@@ -24,9 +29,10 @@ func (p *Properties) AddValue(name, val string) error {
 		*p = append(*p, newProp)
 		return nil
 	}
-	return errors.New("exist...")
+	return errors.New("exist")
 }
 
+// GetValue return a property
 func (p *Properties) GetValue(name string) (string, error) {
 	for _, v := range *p {
 		if v.Name == name {
@@ -36,11 +42,13 @@ func (p *Properties) GetValue(name string) (string, error) {
 	return "", errors.New("property '" + name + "' does not exist")
 }
 
+// Exist return true is a property name exist
 func (p *Properties) Exist(name string) error {
 	// TODO:...
 	return nil
 }
 
+// Check the properties
 func (p *Properties) Check() error {
 	// check if each property name only exist once a time
 	var tmp map[string]bool
