@@ -145,13 +145,16 @@ func validateFile(c *cli.Context, src string) error {
 		// fmt.Println("call validateFile", src)
 		fzpData, _, err := fzp.ReadFzp(src)
 		if err != nil {
-			fmt.Printf("validator failed @ %v\n", err)
+			fmt.Printf("validator failed @ %v, %s\n ", err, src)
 			os.Exit(1)
 		}
 		// Logf("fzp file '%v' successful read\n", src, fzpData)
 
 		errCounter /*, warnings*/ := fzpData.Check() //checkData(c, fzpData)
 		if len(errCounter) != 0 {
+			for _, error := range errCounter {
+				fmt.Println(error)
+			}
 			return errors.New(" Errors @ " + src)
 		}
 		// if len(warnings) != 0 {

@@ -68,7 +68,7 @@ func (f *Fzp) CheckModuleID() error {
 // type warning
 func (f *Fzp) CheckVersion() string {
 	if f.Version == "" {
-		return "==> WARN version undefined"
+		return "==> WARN version undefined: " + f.FileName
 	}
 	return ""
 }
