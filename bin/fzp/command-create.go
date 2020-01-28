@@ -10,42 +10,42 @@ import (
 )
 
 var commandCreateFlags = []cli.Flag{
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "title, t",
 		Usage: "fzp title",
 		Value: "untitled",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "family, f",
 		Usage: "set a familyname property for the part",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "version, v",
 		Usage: "fzp version",
 		Value: "0.1.0",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "desc, d",
 		Usage: "fzp description",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "author, a",
 		Usage: "author of the fritzing part",
 		Value: "unknown",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "date, D",
 		Usage: "creation date of the part",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "url, u",
 		Usage: "parts url",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "label, l",
 		Usage: "set a label for the part",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "tags, T",
 		Usage: "a list of part tags",
 	},
@@ -91,13 +91,13 @@ func commandCreateAction(c *cli.Context) error {
 
 	// output
 	tmpArgs := c.Args()
-	tmpArgsLen := len(tmpArgs)
+	tmpArgsLen := tmpArgs.Len()
 	// fmt.Println("args", tmpArgs)
 
 	format := fzp.FormatFzp
 	isFile := false
 	if tmpArgsLen > 0 {
-		format, isFile = fzp.GetFormat(tmpArgs[0])
+		format, isFile = fzp.GetFormat(tmpArgs.Get(0))
 	}
 
 	// format data
@@ -111,7 +111,7 @@ func commandCreateAction(c *cli.Context) error {
 		return nil
 	}
 
-	err = ioutil.WriteFile(tmpArgs[0], tmpFzpEncoded, 0755)
+	err = ioutil.WriteFile(tmpArgs.Get(0), tmpFzpEncoded, 0755)
 	if err != nil {
 		cli.NewExitError("WriteError: "+err.Error(), 127)
 	}
