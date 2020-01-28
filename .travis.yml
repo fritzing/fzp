@@ -1,8 +1,7 @@
 language: go
 
 go:
-  - 1.5
-  - 1.6
+  - 1.13
   - tip
 
 # workarround to successful build a forked version of the fzp repository
