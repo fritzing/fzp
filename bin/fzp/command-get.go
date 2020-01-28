@@ -9,51 +9,51 @@ import (
 )
 
 var commandGetFlags = []cli.Flag{
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "title, t",
 		Usage: "get the title data",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "version, v",
 		Usage: "get the version data",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "desc, d",
 		Usage: "get the description data",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "author, a",
 		Usage: "get the author data",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "date, D",
 		Usage: "get the date data",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "url, u",
 		Usage: "get the url data",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "label, l",
 		Usage: "get the label data",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "tags, T",
 		Usage: "get the tags data",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "props, p",
 		Usage: "get the properties data",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "views, V",
 		Usage: "get the views data",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "connectors, c",
 		Usage: "get the connectorsr data",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "buses, b",
 		Usage: "get the buses data",
 	},
@@ -63,7 +63,7 @@ func commandGetAction(c *cli.Context) error {
 	tmpArgs := c.Args()
 	// fmt.Println("ARGS", tmpArgs)
 
-	if len(tmpArgs) == 0 {
+	if tmpArgs.Len() == 0 {
 		fmt.Println("Missing fritzing part filepath")
 		os.Exit(1)
 	}
@@ -164,13 +164,13 @@ func commandGetAction(c *cli.Context) error {
 		fmt.Println("TODO: get folder data...")
 	}
 
-	dataHandler(tmpArgs[0], func() {
+	dataHandler(tmpArgs.Get(0), func() {
 		// if the source is a directory...
-		getActionDir(tmpArgs[0])
+		getActionDir(tmpArgs.Get(0))
 
 	}, func() {
 		// if the source is a file...
-		getActionFile(tmpArgs[0])
+		getActionFile(tmpArgs.Get(0))
 	})
 
 	return nil

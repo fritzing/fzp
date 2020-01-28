@@ -14,11 +14,11 @@ import (
 )
 
 var commandFormatFlags = []cli.Flag{
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "write, w",
 		Usage: "write result to file instead of stdout",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "diff, d",
 		Usage: "display diffs instead of stdout or write file",
 	},
@@ -28,13 +28,13 @@ var commandFormatFlags = []cli.Flag{
 // it can be used to format the source of a fzp file.
 func commandFormatAction(c *cli.Context) error {
 	tmpArgs := c.Args()
-	if len(tmpArgs) == 0 {
+	if tmpArgs.Len() == 0 {
 		fmt.Println("missing source to format. try run")
 		fmt.Println("  fzp format part.fzp")
 		os.Exit(127)
 	}
 
-	source := tmpArgs[0]
+	source := tmpArgs.Get(0)
 
 	formatDirHandler := func() {
 		err := formatFile(source, c.Bool("write"), c.Bool("diff"))

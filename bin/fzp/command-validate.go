@@ -13,41 +13,41 @@ import (
 
 var commandValidateFlags = []cli.Flag{
 	// input flags
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "file, f",
 		Usage: "fzp filepath",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "dir, d",
 		Usage: "fzp directory",
 	},
 
 	// data check settings
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-fritzingversion, nf",
 		Usage: "disable fritzingVersion check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-moduleid, nm",
 		Usage: "disable moduleid check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-referencefile, nr",
 		Usage: "disable referenceFile check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-version, nv",
 		Usage: "disable <version> check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-title, nt",
 		Usage: "disable <title> check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-description, nd",
 		Usage: "disable <description> check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-author, na",
 		Usage: "disable <author> check",
 	},
@@ -67,7 +67,7 @@ var commandValidateFlags = []cli.Flag{
 	// 	Name:  "no-check-taxonomy, nD",
 	// 	Usage: "disable <taxonomy> check",
 	// },
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-family, nD",
 		Usage: "disable <family> check",
 	},
@@ -75,28 +75,28 @@ var commandValidateFlags = []cli.Flag{
 	// 	Name:  "no-check-variant, nD",
 	// 	Usage: "disable <variant> check",
 	// },
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-tags, nT",
 		Usage: "disable <tags> check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-properties, np",
 		Usage: "disable <properties> check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-views, nV",
 		Usage: "disable <views> check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-connectors, nc",
 		Usage: "disable <connectors> check",
 	},
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "no-check-buses, nb",
 		Usage: "disable <buses> check",
 	},
 	// utils
-	cli.BoolFlag{
+	&cli.BoolFlag{
 		Name:  "verbose, V",
 		Usage: "verbose mode",
 	},

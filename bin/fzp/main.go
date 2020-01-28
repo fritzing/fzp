@@ -1,9 +1,8 @@
 package main
 
 import (
-	"os"
-
 	"github.com/urfave/cli"
+	"os"
 )
 
 func main() {
@@ -11,8 +10,8 @@ func main() {
 	app.Name = "fzp"
 	app.Usage = "fzp tool (validator, encoder, formatter)"
 	app.Version = "0.2.6"
-	app.Email = "https://github.com/fritzing/fzp"
-	app.Commands = []cli.Command{
+	//app.Email = "https://github.com/fritzing/fzp"
+	app.Commands = []*cli.Command{
 		{
 			Name:   "validate",
 			Usage:  "validate fzp file/files",
@@ -47,10 +46,13 @@ func main() {
 	// cli.HelpPrinter = func(w io.Writer, templ string, data interface{}) {
 	// 	fmt.Println("TODO: better main help")
 	// }
-	app.Action = func(c *cli.Context) {
-		cli.ShowAppHelp(c)
-		return
+
+	ac := func(c *cli.Context) error {
+		err := cli.ShowAppHelp(c)
+		return err
 	}
+
+	app.Action = ac
 	app.Run(os.Args)
 }
 

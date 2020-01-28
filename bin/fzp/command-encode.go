@@ -12,11 +12,11 @@ import (
 )
 
 var commandEncodeFlags = []cli.Flag{
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "input, i",
 		Usage: "the input file. supported formats: xml, json and yaml",
 	},
-	cli.StringFlag{
+	&cli.StringFlag{
 		Name:  "output, o",
 		Usage: "the output file or format. supported formats: xml, json and yaml",
 	},
