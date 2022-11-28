@@ -91,7 +91,7 @@ func commandCreateAction(c *cli.Context) error {
 
 	// output
 	tmpArgs := c.Args()
-	tmpArgsLen := tmpArgs.Len()
+	tmpArgsLen := len(tmpArgs)
 	// fmt.Println("args", tmpArgs)
 
 	format := fzp.FormatFzp
