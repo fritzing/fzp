@@ -63,7 +63,7 @@ func commandGetAction(c *cli.Context) error {
 	tmpArgs := c.Args()
 	// fmt.Println("ARGS", tmpArgs)
 
-	if tmpArgs.Len() == 0 {
+	if len(tmpArgs) == 0 {
 		fmt.Println("Missing fritzing part filepath")
 		os.Exit(1)
 	}

@@ -28,7 +28,7 @@ var commandFormatFlags = []cli.Flag{
 // it can be used to format the source of a fzp file.
 func commandFormatAction(c *cli.Context) error {
 	tmpArgs := c.Args()
-	if tmpArgs.Len() == 0 {
+	if len(tmpArgs) == 0 {
 		fmt.Println("missing source to format. try run")
 		fmt.Println("  fzp format part.fzp")
 		os.Exit(127)
