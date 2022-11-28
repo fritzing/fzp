@@ -11,7 +11,7 @@ func main() {
 	app.Usage = "fzp tool (validator, encoder, formatter)"
 	app.Version = "0.2.6"
 	//app.Email = "https://github.com/fritzing/fzp"
-	app.Commands = []*cli.Command{
+	app.Commands = []cli.Command{
 		{
 			Name:   "validate",
 			Usage:  "validate fzp file/files",
